@@ -1,3 +1,3 @@
-output "user_name" {
+output "name" {
   value = "${aws_iam_user.user.name}"
 }
