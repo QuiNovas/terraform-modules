@@ -1,13 +1,13 @@
-variable "user_name" {
+variable "name" {
   type = "string"
 }
 
-variable "user_path" {
+variable "path" {
   type    = "string"
   default = "/"
 }
 
-variable "user_ssh_pub" {
+variable "ssh_pub" {
   type    = "string"
   default = "none"
 }

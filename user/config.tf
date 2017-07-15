@@ -1,15 +1,15 @@
 data "aws_caller_identity" "current" {}
 
 resource "aws_iam_user" "user" {
-  name = "${var.user_name}"
-  path = "${var.user_path}"
+  name = "${var.name}"
+  path = "${var.path}"
 }
 
 resource "aws_iam_user_ssh_key" "user" {
-  count      = "${var.user_ssh_pub == "none" ? 0 : 1}"
+  count      = "${var.ssh_pub == "none" ? 0 : 1}"
   username   = "${aws_iam_user.user.name}"
   encoding   = "SSH"
-  public_key = "${var.user_ssh_pub}"
+  public_key = "${var.ssh_pub}"
 }
 
 data "aws_iam_policy_document" "user" {
@@ -23,7 +23,7 @@ data "aws_iam_policy_document" "user" {
       "iam:*SSHPublicKey*"
     ]
     resources = [
-      "arn:aws:iam::${data.aws_caller_identity.current.account_id}:user${var.user_path}${var.user_name}"
+      "arn:aws:iam::${data.aws_caller_identity.current.account_id}:user${var.path}${var.name}"
     ]
     sid       = "ManageLoginProfile"
   }
@@ -51,8 +51,8 @@ data "aws_iam_policy_document" "user" {
       "iam:ResyncMFADevice"
     ]
     resources = [
-      "arn:aws:iam::${data.aws_caller_identity.current.account_id}:mfa/${var.user_name}",
-      "arn:aws:iam::${data.aws_caller_identity.current.account_id}:user${var.user_path}${var.user_name}"
+      "arn:aws:iam::${data.aws_caller_identity.current.account_id}:mfa/${var.name}",
+      "arn:aws:iam::${data.aws_caller_identity.current.account_id}:user${var.path}${var.name}"
     ]
     sid       = "AllowUsersToManageMFA"
   }
