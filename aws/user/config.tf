@@ -16,63 +16,99 @@ data "aws_iam_policy_document" "user" {
 
   statement {
     actions   = [
-      "iam:*AccessKey*",
-      "iam:GenerateCredentialReport",
-      "iam:GenerateServiceLastAccessedDetails",
-      "iam:*LoginProfile*",
-      "iam:*SSHPublicKey*"
-    ]
-    resources = [
-      "arn:aws:iam::${data.aws_caller_identity.current.account_id}:user${var.path}${var.name}"
-    ]
-    sid       = "ManageLoginProfile"
-  }
-
-  statement {
-    actions   = [
       "iam:GetAccountPasswordPolicy",
-      "iam:GetAccountSummary",
-      "iam:ListAccount*",
+      "iam:ListAccountAliases",
       "iam:ListUsers"
     ]
     resources = [
       "*"
     ]
-    sid       = "AllowViewingOfProfiles"
+    sid       = "AllowAllUsersToListAccounts"
   }
 
   statement {
     actions   = [
-      "iam:CreateVirtualMFADevice",
-      "iam:DeactivateMFADevice",
-      "iam:DeleteVirtualMFADevice",
-      "iam:EnableMFADevice",
-      "iam:ListMFADevices",
-      "iam:ResyncMFADevice"
+      "iam:*AccessKey*",
+      "iam:*LoginProfile",
+      "iam:*SSHPublicKey*",
+      "iam:ChangePassword",
+      "iam:GenerateCredentialReport",
+      "iam:GenerateServiceLastAccessedDetails",
+      "iam:GetAccountSummary"
+    ]
+    resources = [
+      "arn:aws:iam::${data.aws_caller_identity.current.account_id}:user${var.path}${var.name}"
+    ]
+    sid       = "AllowIndividualUserToManageTheirAccountInformation"
+  }
+
+  statement {
+    actions   = [
+      "iam:List*MFADevices"
+    ]
+    resources = [
+      "arn:aws:iam::${data.aws_caller_identity.current.account_id}:mfa/*",
+      "arn:aws:iam::${data.aws_caller_identity.current.account_id}:user${var.path}${var.name}"
+    ]
+    sid       = "AllowIndividualUserToListTheirMFA"
+  }
+
+  statement {
+    actions   = [
+      "iam:*MFADevice"
     ]
     resources = [
       "arn:aws:iam::${data.aws_caller_identity.current.account_id}:mfa/${var.name}",
       "arn:aws:iam::${data.aws_caller_identity.current.account_id}:user${var.path}${var.name}"
     ]
-    sid       = "AllowUsersToManageMFA"
+    sid       = "AllowIndividualUserToManageThierMFA"
   }
 
   statement {
     condition {
-      test      = "BoolIfExists"
+      test      = "Null"
       values    = [
-        "false"
+        "true"
       ]
       variable  = "aws:MultiFactorAuthPresent"
     }
     effect = "Deny"
     not_actions = [
-      "iam:*"
+      "iam:*LoginProfile",
+      "iam:*MFADevice",
+      "iam:ChangePassword",
+      "iam:GetAccountPasswordPolicy",
+      "iam:GetAccountSummary",
+      "iam:List*MFADevices",
+      "iam:ListAccountAliases",
+      "iam:ListUsers"
     ]
-    resources = [
+    resources   = [
       "*"
     ]
-    sid       = "BlockAccessToOtherFeaturesWithoutMFA"
+    sid         = "DenyEverythingExceptForBelowUnlessMFAd"
+  }
+
+  statement {
+    condition {
+      test        = "Null"
+      values      = [
+        "true"
+      ]
+      variable    = "aws:MultiFactorAuthPresent"
+    }
+    effect        = "Deny"
+    actions       = [
+      "iam:*LoginProfile",
+      "iam:*MFADevice",
+      "iam:ChangePassword",
+      "iam:GetAccountSummary"
+    ]
+    not_resources = [
+      "arn:aws:iam::${data.aws_caller_identity.current.account_id}:mfa/${var.name}",
+      "arn:aws:iam::${data.aws_caller_identity.current.account_id}:user${var.path}${var.name}"
+    ]
+    sid           = "DenyIamAccessToOtherAccountsUnlessMFAd"
   }
 }
 
