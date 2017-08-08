@@ -17,6 +17,7 @@ data "aws_iam_policy_document" "user" {
   statement {
     actions   = [
       "iam:GetAccountPasswordPolicy",
+      " iam:GetServiceLastAccessedDetails",
       "iam:ListAccountAliases",
       "iam:ListUsers"
     ]
@@ -36,7 +37,9 @@ data "aws_iam_policy_document" "user" {
       "iam:ChangePassword",
       "iam:GenerateCredentialReport",
       "iam:GenerateServiceLastAccessedDetails",
-      "iam:GetAccountSummary"
+      "iam:GetAccountSummary",
+      "iam:ListGroupsForUser",
+      "iam:ListUserPolicies"
     ]
     resources = [
       "arn:aws:iam::${data.aws_caller_identity.current.account_id}:user${var.path}${var.name}"
@@ -64,6 +67,18 @@ data "aws_iam_policy_document" "user" {
       "arn:aws:iam::${data.aws_caller_identity.current.account_id}:user${var.path}${var.name}"
     ]
     sid       = "AllowIndividualUserToManageThierMFA"
+  }
+
+  statement {
+    actions   = [
+      "iam:GetRolePolicy",
+      "iam:GetRoles",
+      "iam:ListRoles"
+    ]
+    resources = [
+      "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/*"
+    ]
+    sid       = "AllowUserToViewRoles"
   }
 
   statement {
