@@ -12,7 +12,7 @@ resource "aws_iam_user_ssh_key" "user" {
   public_key = "${var.ssh_pub}"
 }
 
-data "aws_iam_policy_document" "user" {
+data "aws_iam_policy_document" "user_profile_self_service" {
 
   statement {
     actions   = [
@@ -93,6 +93,15 @@ data "aws_iam_policy_document" "user" {
     sid = "AllowUserToListGroups"
   }
 
+}
+
+resource "aws_iam_user_policy" "user_profile_self_service" {
+  name    = "UserProfileSelfService"
+  policy  = "${data.aws_iam_policy_document.user_profile_self_service.json}"
+  user    = "${aws_iam_user.user.name}"
+}
+
+data "aws_iam_policy_document" "enforce_mfa" {
   statement {
     condition {
       test      = "Null"
@@ -141,8 +150,8 @@ data "aws_iam_policy_document" "user" {
   }
 }
 
-resource "aws_iam_user_policy" "user" {
-  name    = "UserProfileSelfService"
-  policy  = "${data.aws_iam_policy_document.user.json}"
+resource "aws_iam_user_policy" "enforce_mfa" {
+  name    = "EnforceMFA"
+  policy  = "${data.aws_iam_policy_document.enforce_mfa.json}"
   user    = "${aws_iam_user.user.name}"
 }
