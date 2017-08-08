@@ -30,6 +30,8 @@ data "aws_iam_policy_document" "user" {
     actions   = [
       "iam:*AccessKey*",
       "iam:*LoginProfile",
+      "iam:*ServiceSpecificCredential*",
+      "iam:*SigningCertificate*",
       "iam:*SSHPublicKey*",
       "iam:ChangePassword",
       "iam:GenerateCredentialReport",
