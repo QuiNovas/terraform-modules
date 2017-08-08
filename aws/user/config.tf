@@ -42,7 +42,7 @@ data "aws_iam_policy_document" "user" {
       "iam:ListUserPolicies"
     ]
     resources = [
-      "arn:aws:iam::${data.aws_caller_identity.current.account_id}:user${var.path}${var.name}"
+      "${aws_iam_user.user.arn}"
     ]
     sid       = "AllowIndividualUserToManageTheirAccountInformation"
   }
@@ -53,7 +53,7 @@ data "aws_iam_policy_document" "user" {
     ]
     resources = [
       "arn:aws:iam::${data.aws_caller_identity.current.account_id}:mfa/*",
-      "arn:aws:iam::${data.aws_caller_identity.current.account_id}:user${var.path}${var.name}"
+      "${aws_iam_user.user.arn}"
     ]
     sid       = "AllowIndividualUserToListTheirMFA"
   }
@@ -64,7 +64,7 @@ data "aws_iam_policy_document" "user" {
     ]
     resources = [
       "arn:aws:iam::${data.aws_caller_identity.current.account_id}:mfa/${var.name}",
-      "arn:aws:iam::${data.aws_caller_identity.current.account_id}:user${var.path}${var.name}"
+      "${aws_iam_user.user.arn}"
     ]
     sid       = "AllowIndividualUserToManageThierMFA"
   }
@@ -123,7 +123,7 @@ data "aws_iam_policy_document" "user" {
     ]
     not_resources = [
       "arn:aws:iam::${data.aws_caller_identity.current.account_id}:mfa/${var.name}",
-      "arn:aws:iam::${data.aws_caller_identity.current.account_id}:user${var.path}${var.name}"
+      "${aws_iam_user.user.arn}"
     ]
     sid           = "DenyIamAccessToOtherAccountsUnlessMFAd"
   }
