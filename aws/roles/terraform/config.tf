@@ -11,7 +11,7 @@ data "aws_iam_policy_document" "terraform" {
       variable  = "aws:MultiFactorAuthPresent"
     }
     principals {
-      identifiers = "${var.allowed_user_arns}"
+      identifiers = ["${var.allowed_user_arns}"]
       type        = "AWS"
     }
   }
