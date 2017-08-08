@@ -20,7 +20,6 @@ data "aws_iam_policy_document" "terraform" {
 resource "aws_iam_role" "terraform" {
   assume_role_policy  = "${data.aws_iam_policy_document.terraform.json}"
   name                = "terraform"
-  path                = "/user/"
 }
 
 resource "aws_iam_role_policy_attachment" "terraform" {
