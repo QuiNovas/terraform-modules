@@ -2,62 +2,20 @@ data "aws_caller_identity" "current" {}
 
 resource "aws_iam_user" "user" {
   name = "${var.name}"
-  path = "${var.path}"
-}
-
-resource "aws_iam_user_ssh_key" "user" {
-  count      = "${var.ssh_pub == "none" ? 0 : 1}"
-  username   = "${aws_iam_user.user.name}"
-  encoding   = "SSH"
-  public_key = "${var.ssh_pub}"
 }
 
 data "aws_iam_policy_document" "user_profile_self_service" {
 
   statement {
     actions   = [
-      "iam:GetAccountPasswordPolicy",
-      "iam:GetServiceLastAccessedDetails",
-      "iam:ListAccountAliases",
-      "iam:ListUsers"
-    ]
-    resources = [
-      "*"
-    ]
-    sid       = "AllowAllUsersToListAccounts"
-  }
-
-  statement {
-    actions   = [
       "iam:*AccessKey*",
       "iam:*LoginProfile",
-      "iam:*ServiceSpecificCredential*",
-      "iam:*SigningCertificate*",
-      "iam:*SSHPublicKey*",
-      "iam:ChangePassword",
-      "iam:GenerateCredentialReport",
-      "iam:GenerateServiceLastAccessedDetails",
-      "iam:GetAccountSummary",
-      "iam:ListGroupsForUser",
-      "iam:ListAttachedUserPolicies",
-      "iam:ListPoliciesGrantingServiceAccess",
-      "iam:ListUserPolicies"
+      "iam:*SigningCertificate*"
     ]
     resources = [
       "${aws_iam_user.user.arn}"
     ]
     sid       = "AllowIndividualUserToManageTheirAccountInformation"
-  }
-
-  statement {
-    actions   = [
-      "iam:List*MFADevices"
-    ]
-    resources = [
-      "arn:aws:iam::${data.aws_caller_identity.current.account_id}:mfa/*",
-      "${aws_iam_user.user.arn}"
-    ]
-    sid       = "AllowIndividualUserToListTheirMFA"
   }
 
   statement {
@@ -92,7 +50,6 @@ data "aws_iam_policy_document" "user_profile_self_service" {
     ]
     sid = "AllowUserToListGroups"
   }
-
 }
 
 resource "aws_iam_user_policy" "user_profile_self_service" {
@@ -154,4 +111,24 @@ resource "aws_iam_user_policy" "enforce_mfa" {
   name    = "EnforceMFA"
   policy  = "${data.aws_iam_policy_document.enforce_mfa.json}"
   user    = "${aws_iam_user.user.name}"
+}
+
+resource "aws_iam_user_policy_attachment" "manage_specific_credentials" {
+  policy_arn = "arn:aws:iam::aws:policy/IAMSelfManageServiceSpecificCredentials"
+  user       = "${aws_iam_user.user.name}"
+}
+
+resource "aws_iam_user_policy_attachment" "change_password" {
+  policy_arn = "arn:aws:iam::aws:policy/IAMUserChangePassword"
+  user       = "${aws_iam_user.user.name}"
+}
+
+resource "aws_iam_user_policy_attachment" "manage_ssh_keys" {
+  policy_arn = "arn:aws:iam::aws:policy/IAMUserSSHKeys"
+  user       = "${aws_iam_user.user.name}"
+}
+
+resource "aws_iam_user_policy_attachment" "iam_read_only" {
+  policy_arn = "arn:aws:iam::aws:policy/IAMReadOnlyAccess"
+  user       = "${aws_iam_user.user.name}"
 }
