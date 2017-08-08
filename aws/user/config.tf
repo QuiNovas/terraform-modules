@@ -39,6 +39,8 @@ data "aws_iam_policy_document" "user" {
       "iam:GenerateServiceLastAccessedDetails",
       "iam:GetAccountSummary",
       "iam:ListGroupsForUser",
+      "iam:ListAttachedUserPolicies",
+      "iam:ListPoliciesGrantingServiceAccess",
       "iam:ListUserPolicies"
     ]
     resources = [
