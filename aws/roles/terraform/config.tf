@@ -56,7 +56,7 @@ data "aws_iam_policy_document" "terraform_group" {
 resource "aws_iam_group_policy" "terraform_group" {
   group   = "${aws_iam_group.terraform_group.id}"
   name    = "role_access"
-  policy  = "${data.aws_iam_policy_document.terraform_role.json}"
+  policy  = "${data.aws_iam_policy_document.terraform_group.json}"
 }
 
 resource "aws_iam_group_membership" "terraform_group" {
