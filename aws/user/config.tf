@@ -84,6 +84,16 @@ data "aws_iam_policy_document" "user" {
   }
 
   statement {
+    actions = [
+      "iam:ListGroups"
+    ]
+    resources = [
+      "arn:aws:iam::${data.aws_caller_identity.current.account_id}:group/*"
+    ]
+    sid = "AllowUserToListGroups"
+  }
+
+  statement {
     condition {
       test      = "Null"
       values    = [
