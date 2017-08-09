@@ -28,42 +28,9 @@ resource "aws_iam_role_policy_attachment" "role" {
   role = "${aws_iam_role.role.name}"
 }
 
-resource "aws_iam_group" "group" {
-  name = "${var.name}"
-}
-
-data "aws_iam_policy_document" "group" {
-  "statement" {
-    actions = [
-      "sts:AssumeRole"
-    ]
-    resources = [
-      "${aws_iam_role.role.arn}"
-    ]
-    sid = "AllowAssumingOfRole"
-  }
-
-  statement {
-    actions = [
-      "iam:ListAttachedRolePolicies"
-    ]
-    resources = [
-      "${aws_iam_role.role.arn}"
-    ]
-    sid = "AllowListingOfRolePolicies"
-  }
-}
-
-resource "aws_iam_group_policy" "group" {
-  group   = "${aws_iam_group.group.id}"
-  name    = "role_access"
-  policy  = "${data.aws_iam_policy_document.group.json}"
-}
-
-resource "aws_iam_group_membership" "group" {
-  group = "${aws_iam_group.group.name}"
-  name  = "${var.name}-membership"
-  users = [
-    "${var.allowed_user_names}"
-  ]
+module "group" {
+  name                = "${var.name}"
+  allowed_user_names  = ["${var.allowed_user_names}"]
+  role_arns           = ["${aws_iam_role.role.arn}"]
+  source              = "github.com/QuiNovas/terraform-modules//aws/assume-role-group"
 }
