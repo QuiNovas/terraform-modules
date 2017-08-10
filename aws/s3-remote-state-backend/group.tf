@@ -28,6 +28,17 @@ data "aws_iam_policy_document" "remote_state_backend_group" {
     ]
     sid = "AllowUseOfRemoteStateBackendKMSKey"
   }
+  statement {
+    actions = [
+      "dynamodb:Batch*",
+      "dynamodb:Describe*",
+      "dynamodb:Get*",
+      "dynamodb:PutItem",
+      "dynamodb:Query",
+      "dynamodb:Scan",
+      "dynamodb:UpdateItem"
+    ]
+  }
 }
 
 resource "aws_iam_group_policy" "remote_state_backend" {
