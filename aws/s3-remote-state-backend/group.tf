@@ -38,6 +38,10 @@ data "aws_iam_policy_document" "remote_state_backend_group" {
       "dynamodb:Scan",
       "dynamodb:UpdateItem"
     ]
+    resources = [
+      "${aws_dynamodb_table.remote_state_backend.arn}"
+    ]
+    sid = "AllowAccessToLockTable"
   }
 }
 
