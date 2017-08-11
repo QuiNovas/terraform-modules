@@ -31,6 +31,7 @@ data "aws_iam_policy_document" "remote_state_backend_group" {
   statement {
     actions = [
       "dynamodb:Batch*",
+      "dynamodb:DeleteItem",
       "dynamodb:Describe*",
       "dynamodb:Get*",
       "dynamodb:PutItem",
