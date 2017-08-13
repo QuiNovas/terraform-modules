@@ -4,6 +4,18 @@ resource "aws_s3_bucket" "yum_repo" {
   lifecycle {
     prevent_destroy = true
   }
+  lifecycle_rule {
+    id      = "versions"
+    enabled = true
+    noncurrent_version_expiration {
+      days                          = 60
+      expired_object_delete_marker  = true
+    }
+    noncurrent_version_transition {
+      days          = 30
+      storage_class = "GLACIER"
+    }
+  }
   versioning {
     enabled = true
   }
