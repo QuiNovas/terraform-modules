@@ -7,9 +7,6 @@ resource "aws_s3_bucket" "yum_repo" {
   lifecycle_rule {
     id      = "versions"
     enabled = true
-    expiration {
-      expired_object_delete_marker = true
-    }
     noncurrent_version_expiration {
       days = 60
     }
