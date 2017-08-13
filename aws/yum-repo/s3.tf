@@ -5,8 +5,12 @@ resource "aws_s3_bucket" "yum_repo" {
     prevent_destroy = true
   }
   lifecycle_rule {
+    abort_incomplete_multipart_upload_days = 7
     id      = "versions"
     enabled = true
+    expiration {
+      expired_object_delete_marker = true
+    }
     noncurrent_version_expiration {
       days = 60
     }
