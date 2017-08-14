@@ -9,3 +9,10 @@ variable "name_prefix" {
 variable "repo_locations" {
   type = "list"
 }
+
+variable "repo_whitelists" {
+  type = "list"
+  default = [
+    "0.0.0.0/0"
+  ]
+}
