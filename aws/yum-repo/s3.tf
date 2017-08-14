@@ -38,6 +38,11 @@ data "aws_iam_policy_document" "yum_repo_s3" {
       "s3:ListBucket",
       "s3:ListBucketVersions"
     ]
+    condition {
+      test = "IpAddress"
+      values = ["${var.repo_whitelists}"]
+      variable = "aws:SourceIp"
+    }
     principals {
       identifiers = [
         "*"
