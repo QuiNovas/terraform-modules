@@ -17,7 +17,21 @@ resource "aws_iam_role" "repo_watcher" {
   assume_role_policy = "${data.aws_iam_policy_document.repo_watcher_assume_role.json}"
 }
 
+resource "aws_cloudwatch_log_group" "repo_watcher_log_group" {
+  name              = "/aws/lambda/${var.name_prefix}-yum-repo-watcher"
+  retention_in_days = 7
+}
+
 data "aws_iam_policy_document" "repo_watcher" {
+  statement {
+    actions = [
+      "logs:CreateLogStream",
+      "logs:PutLogEvents"
+    ]
+    resources = [
+      "${aws_cloudwatch_log_group.repo_watcher_log_group.arn}"
+    ]
+  }
   statement {
     actions   = [
       "codebuild:StartBuild"
