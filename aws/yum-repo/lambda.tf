@@ -32,7 +32,7 @@ data "aws_iam_policy_document" "repo_watcher" {
 resource "aws_iam_role_policy" "repo_watcher" {
   name    = "${var.name_prefix}-yum-repo-watcher"
   policy  = "${data.aws_iam_policy_document.repo_watcher.json}"
-  role    = "${aws_iam_role.repo_watcher.arn}"
+  role    = "${aws_iam_role.repo_watcher.id}"
 }
 
 data "aws_s3_bucket_object" "codebuild_runner" {
