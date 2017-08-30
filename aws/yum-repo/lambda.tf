@@ -52,7 +52,7 @@ resource "aws_iam_role_policy" "repo_watcher" {
 
 data "aws_s3_bucket_object" "codebuild_runner" {
   bucket  = "lambdalambdalambda-repo"
-  key     = "quinovas/codebuild-runner/codebuild-runner-0.1.0.zip"
+  key     = "quinovas/codebuild-runner/codebuild-runner-0.1.1.zip"
 }
 
 resource "aws_lambda_function" "repo_watcher" {
