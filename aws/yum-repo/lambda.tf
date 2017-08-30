@@ -31,6 +31,7 @@ data "aws_iam_policy_document" "repo_watcher" {
     resources = [
       "${aws_cloudwatch_log_group.repo_watcher_log_group.arn}"
     ]
+    sid       = "AllowLogCreation"
   }
   statement {
     actions   = [
