@@ -56,6 +56,7 @@ data "aws_s3_bucket_object" "codebuild_runner" {
 }
 
 resource "aws_lambda_function" "repo_watcher" {
+  depends_on = ["aws_cloudwatch_log_group.repo_watcher_log_group"]
   environment {
     variables = {
       PROJECT_NAME = "${aws_codebuild_project.yum_repo.name}"
