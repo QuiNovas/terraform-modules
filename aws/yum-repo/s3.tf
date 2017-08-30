@@ -61,3 +61,15 @@ resource "aws_s3_bucket_policy" "yum_repo" {
   bucket = "${aws_s3_bucket.yum_repo.id}"
   policy = "${data.aws_iam_policy_document.yum_repo_s3.json}"
 }
+
+resource "aws_s3_bucket_notification" "yum_repo" {
+  bucket          = "${aws_s3_bucket.yum_repo.id}"
+  lambda_function {
+    lambda_function_arn = "${aws_lambda_function.repo_watcher.arn}"
+    events              = [
+      "s3:ObjectCreated:*",
+      "s3:ObjectRemoved:*"
+    ]
+    filter_suffix = ".rpm"
+  }
+}
