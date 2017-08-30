@@ -56,7 +56,7 @@ resource "aws_lambda_function" "repo_watcher" {
 
 resource "aws_lambda_permission" "repo_watcher" {
   action        = "lambda:InvokeFunction"
-  function_name = "${aws_lambda_function.repo_watcher.name}"
+  function_name = "${aws_lambda_function.repo_watcher.arn}"
   principal     = "s3.amazonaws.com"
   source_arn    = "${aws_s3_bucket.yum_repo.arn}"
   statement_id  = "AllowExecutionFromS3Bucket"
