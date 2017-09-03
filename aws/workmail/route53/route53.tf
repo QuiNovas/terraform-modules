@@ -1,5 +1,5 @@
 resource "aws_route53_record" "autodiscover" {
-  name    = "autodiscover.${var.domain}."
+  name    = "autodiscover.${var.domain}"
   records = [
     "autodiscover.mail.us-east-1.awsapps.com."
   ]
@@ -10,7 +10,7 @@ resource "aws_route53_record" "autodiscover" {
 
 resource "aws_route53_record" "domain_keys" {
   count   = "${var.domain_key_prefixes_count}"
-  name    = "${var.domain_key_prefixes[count.index]}._domainkey.${var.domain}."
+  name    = "${var.domain_key_prefixes[count.index]}._domainkey.${var.domain}"
   records = [
     "${var.domain_key_prefixes[count.index]}.dkim.amazonses.com."
   ]
@@ -20,7 +20,7 @@ resource "aws_route53_record" "domain_keys" {
 }
 
 resource "aws_route53_record" "mx" {
-  name    = "${var.domain}."
+  name    = "${var.domain}"
   records = [
     "${var.mx_record}"
   ]
@@ -30,7 +30,7 @@ resource "aws_route53_record" "mx" {
 }
 
 resource "aws_route53_record" "ses_verification" {
-  name    = "_amazonses.${var.domain}."
+  name    = "_amazonses.${var.domain}"
   records = [
     "${var.verification_record}"
   ]
