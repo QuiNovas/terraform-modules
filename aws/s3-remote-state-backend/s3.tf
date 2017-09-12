@@ -12,58 +12,13 @@ resource "aws_s3_bucket" "remote_state_backend" {
   }
 }
 
-data "aws_iam_policy_document" "remote_state_backend_bucket" {
-  statement {
-    actions = [
-      "s3:*"
-    ]
-    condition {
-      test = "Bool"
-      values = [
-        "false"
-      ]
-      variable = "aws:SecureTransport"
-    }
-    effect = "Deny"
-    principals {
-      identifiers = [
-        "*"
-      ]
-      type = "AWS"
-    }
-    resources = [
-      "${aws_s3_bucket.remote_state_backend.arn}",
-      "${aws_s3_bucket.remote_state_backend.arn}/*"
-    ]
-    sid = "DenyUnsecuredTransport"
-  }
-  statement {
-    actions = [
-      "s3:PutObject"
-    ]
-    condition {
-      test = "StringNotEquals"
-      values = [
-        "aws:kms"
-      ]
-      variable = "s3:x-amz-server-side-encryption"
-    }
-    effect = "Deny"
-    principals {
-      identifiers = [
-        "*"
-      ]
-      type = "AWS"
-    }
-    resources = [
-      "${aws_s3_bucket.remote_state_backend.arn}",
-      "${aws_s3_bucket.remote_state_backend.arn}/*"
-    ]
-    sid = "DenyUnencryptedObjectPuts"
-  }
+module "remote_state_backend_bucket_policy" {
+  bucket_arn    = "${aws_s3_bucket.remote_state_backend.arn}"
+  kms_key_arns  = ["${aws_kms_key.remote_state_backend.arn}"]
+  source        = "github.com/QuiNovas/terraform-modules//aws/secure-bucket-policy"
 }
 
 resource "aws_s3_bucket_policy" "remote_state_backend" {
   bucket = "${aws_s3_bucket.remote_state_backend.id}"
-  policy = "${data.aws_iam_policy_document.remote_state_backend_bucket.json}"
+  policy = "${module.remote_state_backend_bucket_policy.json}"
 }
