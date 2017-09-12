@@ -54,7 +54,7 @@ data "aws_iam_policy_document" "secure_bucket_policy" {
     condition {
       test = "Null"
       values = [
-        true
+        "true"
       ]
       variable = "s3:x-amz-server-side-encryption"
     }
