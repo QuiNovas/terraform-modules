@@ -7,6 +7,10 @@ variable "read_capacity" {
   default = "1"
 }
 
+variable "rest_api_id" {
+  type = "string"
+}
+
 variable "write_capacity" {
   type = "string"
   default = "1"

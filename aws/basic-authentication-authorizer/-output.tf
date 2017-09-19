@@ -1,3 +1,7 @@
+output "authorizer_id" {
+  value = "${aws_api_gateway_authorizer.authorizer.id}"
+}
+
 output "groups_table_arn" {
   value = "${aws_dynamodb_table.groups.arn}"
 }
