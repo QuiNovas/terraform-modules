@@ -58,7 +58,7 @@ data "aws_s3_bucket_object" "basic_authentication_authorizer" {
 resource "aws_lambda_function" "authorizer" {
   depends_on = ["aws_cloudwatch_log_group.authorizer_log_group"]
   environment {
-    variables = {
+    variables {
       USERS_TABLE_NAME  = "${aws_dynamodb_table.users.name}"
       GROUPS_TABLE_NAME = "${aws_dynamodb_table.groups.name}"
     }
