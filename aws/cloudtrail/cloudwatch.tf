@@ -18,7 +18,7 @@ resource "aws_iam_role" "cloudwatch_logs" {
 }
 
 resource "aws_cloudwatch_log_group" "cloudtrail" {
-  name              = "${var.account_name}-trail"
+  name              = "${var.account_name}-cloudtrail"
   retention_in_days = 7
 }
 
