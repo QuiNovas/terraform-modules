@@ -23,6 +23,7 @@ resource "aws_s3_bucket" "log" {
 data "aws_elb_service_account" "main" {}
 
 data "aws_iam_policy_document" "log" {
+
   statement {
     actions   = [
       "s3:PutObject"
@@ -37,6 +38,31 @@ data "aws_iam_policy_document" "log" {
       "${aws_s3_bucket.log.arn}/elb/*"
     ]
     sid       = "EnableELBLogging"
+  }
+
+  statement {
+    actions = [
+      "s3:*"
+    ]
+    condition {
+      test = "Bool"
+      values = [
+        "false"
+      ]
+      variable = "aws:SecureTransport"
+    }
+    effect = "Deny"
+    principals {
+      identifiers = [
+        "*"
+      ]
+      type = "AWS"
+    }
+    resources = [
+      "${aws_s3_bucket.log.arn}",
+      "${aws_s3_bucket.log.arn}/*"
+    ]
+    sid = "DenyUnsecuredTransport"
   }
 }
 
