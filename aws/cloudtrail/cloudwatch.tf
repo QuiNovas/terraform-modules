@@ -36,6 +36,7 @@ data "aws_iam_policy_document" "cloudwatch_logs_role" {
 }
 
 resource "aws_iam_role_policy" "cloudwatch_logs" {
+  name    = "cloudwatch-logs"
   policy  = "${data.aws_iam_policy_document.cloudwatch_logs_role.json}"
   role    = "${aws_iam_role.cloudwatch_logs.id}"
 }
