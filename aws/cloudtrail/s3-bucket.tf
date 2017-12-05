@@ -20,6 +20,11 @@ resource "aws_s3_bucket" "cloudtrail" {
   lifecycle {
     prevent_destroy = true
   }
+
+  logging {
+    target_bucket = "${var.log_bucket}"
+    target_prefix = "s3/${var.account_name}-cloudtrail/"
+  }
 }
 
 data "aws_iam_policy_document" "cloudtrail_s3" {
