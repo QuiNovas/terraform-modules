@@ -23,8 +23,8 @@ data "aws_iam_policy_document" "role_policy" {
       "s3:PutObject"
     ]
     resources = [
-      "${var.config_delivery_bucket_arn}",
-      "${var.config_delivery_bucket_arn}/*"
+      "${aws_s3_bucket.config.arn}",
+      "${aws_s3_bucket.config.arn}/*"
     ]
   }
 }
@@ -56,8 +56,7 @@ resource "aws_config_delivery_channel" "config" {
     "aws_config_configuration_recorder.config"
   ]
   name            = "${var.account_name}"
-  s3_bucket_name  = "${var.config_delivery_bucket}"
-  s3_key_prefix   = "config"
+  s3_bucket_name  = "${aws_s3_bucket.config.id}"
   snapshot_delivery_properties {
     delivery_frequency = "TwentyFour_Hours"
   }

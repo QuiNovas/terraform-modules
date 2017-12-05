@@ -26,7 +26,7 @@ data "aws_iam_policy_document" "log" {
   statement {
     actions   = [
       "s3:PutObject"
-    ],
+    ]
     principals {
       identifiers = [
         "${data.aws_elb_service_account.main.arn}"
