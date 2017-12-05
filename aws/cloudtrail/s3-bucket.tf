@@ -67,6 +67,31 @@ data "aws_iam_policy_document" "cloudtrail_s3" {
     ]
     sid = "CloudTrail Write"
   }
+
+  statement {
+    actions = [
+      "s3:*"
+    ]
+    condition {
+      test = "Bool"
+      values = [
+        "false"
+      ]
+      variable = "aws:SecureTransport"
+    }
+    effect = "Deny"
+    principals {
+      identifiers = [
+        "*"
+      ]
+      type = "AWS"
+    }
+    resources = [
+      "${aws_s3_bucket.cloudtrail.arn}",
+      "${aws_s3_bucket.cloudtrail.arn}/*"
+    ]
+    sid = "DenyUnsecuredTransport"
+  }
 }
 
 resource "aws_s3_bucket_policy" "cloudtrail" {
