@@ -1,7 +1,7 @@
 resource "aws_inspector_resource_group" "windows" {
   tags {
-    Name  = "inspector"
-    Env   = "windows"
+    Inspector  = "true"
+    OS   = "windows"
   }
 }
 
