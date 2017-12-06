@@ -7,7 +7,7 @@ resource "aws_inspector_resource_group" "linux" {
 
 resource "aws_inspector_assessment_target" "linux" {
   name                = "${var.account_name}-linux"
-  resource_group_arn  = "${aws_inspector_resource_group.windows.arn}"
+  resource_group_arn  = "${aws_inspector_resource_group.linux.arn}"
 }
 
 resource "aws_inspector_assessment_template" "linux" {
@@ -18,5 +18,5 @@ resource "aws_inspector_assessment_template" "linux" {
     "arn:aws:inspector:us-east-1:316112463485:rulespackage/0-gBONHN9h",
     "arn:aws:inspector:us-east-1:316112463485:rulespackage/0-gEjTy7T7"
   ]
-  target_arn          = "${aws_inspector_assessment_target.windows.arn}"
+  target_arn          = "${aws_inspector_assessment_target.linux.arn}"
 }
