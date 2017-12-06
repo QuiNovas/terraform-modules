@@ -1,7 +1,7 @@
 resource "aws_inspector_resource_group" "linux" {
   tags {
-    Name  = "inspector"
-    Env   = "linux"
+    Inspector  = "true"
+    OS   = "linux"
   }
 }
 
