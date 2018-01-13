@@ -32,7 +32,8 @@ resource "aws_cloudfront_distribution" "distribution" {
     target_origin_id        = "${var.distribution_name}"
     viewer_protocol_policy  = "redirect-to-https"
   }
-  enabled = false
+  enabled         = true
+  is_ipv6_enabled = true
   origin {
     domain_name = "${aws_s3_bucket.origin.bucket_domain_name}"
     origin_id   = "${var.distribution_name}"
