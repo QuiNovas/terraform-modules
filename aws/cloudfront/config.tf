@@ -34,6 +34,10 @@ resource "aws_cloudfront_distribution" "distribution" {
   }
   enabled         = true
   is_ipv6_enabled = true
+  logging_config {
+    bucket = "${var.log_bucket}"
+    prefix = "cloudfront/${var.distribution_name}/"
+  }
   origin {
     domain_name = "${aws_s3_bucket.origin.bucket_domain_name}"
     origin_id   = "${var.distribution_name}"
