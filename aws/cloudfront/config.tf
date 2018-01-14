@@ -11,6 +11,9 @@ resource "aws_cloudfront_origin_access_identity" "origin" {
 }
 
 resource "aws_cloudfront_distribution" "distribution" {
+  aliases           = [
+    "${var.aliases}"
+  ]
   default_cache_behavior {
     allowed_methods = [
       "GET",
@@ -32,8 +35,10 @@ resource "aws_cloudfront_distribution" "distribution" {
     target_origin_id        = "${var.distribution_name}"
     viewer_protocol_policy  = "redirect-to-https"
   }
-  enabled         = true
-  is_ipv6_enabled = true
+  default_root_object = "${var.default_root_object}"
+  enabled             = true
+  is_ipv6_enabled     = true
+  price_class         = "PriceClass_100"
   origin {
     domain_name = "${aws_s3_bucket.origin.bucket_domain_name}"
     origin_id   = "${var.distribution_name}"
