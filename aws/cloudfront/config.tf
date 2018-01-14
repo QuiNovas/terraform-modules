@@ -39,7 +39,7 @@ resource "aws_cloudfront_distribution" "distribution" {
   default_root_object = "${var.default_root_object}"
   enabled             = true
   is_ipv6_enabled     = true
-  price_class         = "PriceClass_100"
+  price_class         = "${var.price_class}"
   origin {
     domain_name = "${aws_s3_bucket.origin.bucket_domain_name}"
     origin_id   = "${var.distribution_name}"
