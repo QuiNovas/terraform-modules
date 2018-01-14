@@ -14,6 +14,7 @@ resource "aws_cloudfront_distribution" "distribution" {
   aliases           = [
     "${var.aliases}"
   ]
+  comment           = "${var.comment}"
   default_cache_behavior {
     allowed_methods = [
       "GET",
@@ -53,7 +54,7 @@ resource "aws_cloudfront_distribution" "distribution" {
   }
   viewer_certificate {
     acm_certificate_arn       = "${data.aws_acm_certificate.certificate.arn}"
-    minimum_protocol_version  = "TLSv1"
+    minimum_protocol_version  = "TLSv1.1_2016"
     ssl_support_method        = "sni-only"
   }
 }

@@ -10,6 +10,10 @@ variable "aliases" {
   type = "list"
 }
 
+variable "comment" {
+  type = "string"
+}
+
 variable "default_root_object" {
   type = "string"
   default = "index.html"
