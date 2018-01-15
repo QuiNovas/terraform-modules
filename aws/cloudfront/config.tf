@@ -31,12 +31,19 @@ resource "aws_cloudfront_distribution" "distribution" {
       }
       query_string = false
     }
+    lambda_function_association {
+      event_type = "origin-request"
+      lambda_arn = "${aws_lambda_function.redirector.arn}"
+    }
     max_ttl                 = 86400
     min_ttl                 = 0
     target_origin_id        = "${var.distribution_name}"
     viewer_protocol_policy  = "redirect-to-https"
   }
   default_root_object = "${var.default_root_object}"
+  depends_on          = [
+    "aws_lambda_permission.redirector"
+  ]
   enabled             = true
   is_ipv6_enabled     = true
   price_class         = "${var.price_class}"
