@@ -43,12 +43,13 @@ resource "aws_iam_role_policy" "redirector" {
 }
 
 resource "aws_lambda_function" "redirector" {
-  filename      = "${path.module}/default-index-redirect.zip"
-  function_name = "${var.distribution_name}-default-index-redirector"
-  handler       = "exports.handler"
-  publish       = true
-  role          = "${aws_iam_role.redirector.arn}"
-  runtime       = "nodejs6.10"
+  filename          = "${path.module}/default-index-redirect/function.zip"
+  function_name     = "${var.distribution_name}-default-index-redirector"
+  handler           = "exports.handler"
+  publish           = true
+  role              = "${aws_iam_role.redirector.arn}"
+  runtime           = "nodejs6.10"
+  source_code_hash  = "${base64sha256(file("${path.module}/default-index-redirect/function.zip"))}"
 }
 
 resource "aws_lambda_permission" "redirector" {
