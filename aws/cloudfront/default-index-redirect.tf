@@ -5,7 +5,8 @@ data "aws_iam_policy_document" "redirector_assume_role" {
     ]
     principals {
       identifiers = [
-        "lambda.amazonaws.com"
+        "lambda.amazonaws.com",
+        "edgelambda.amazonaws.com"
       ]
       type = "Service"
     }
