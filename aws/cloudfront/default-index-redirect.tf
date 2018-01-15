@@ -45,7 +45,7 @@ resource "aws_iam_role_policy" "redirector" {
 resource "aws_lambda_function" "redirector" {
   filename          = "${path.module}/default-index-redirect/function.zip"
   function_name     = "${var.distribution_name}-default-index-redirector"
-  handler           = "exports.handler"
+  handler           = "function.handler"
   publish           = true
   role              = "${aws_iam_role.redirector.arn}"
   runtime           = "nodejs6.10"
