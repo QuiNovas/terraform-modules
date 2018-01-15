@@ -13,7 +13,7 @@ data "aws_iam_policy_document" "redirector_assume_role" {
 }
 
 resource "aws_lambda_function" "redirector" {
-  filename      = "default-index-redirect.zip"
+  filename      = "${path.module}/default-index-redirect.zip"
   function_name = "${var.distribution_name}-default-index-redirector"
   handler       = "exports.handler"
   publish       = true
