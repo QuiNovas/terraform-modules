@@ -33,7 +33,7 @@ resource "aws_cloudfront_distribution" "distribution" {
     }
     lambda_function_association {
       event_type = "origin-request"
-      lambda_arn = "${aws_lambda_function.redirector.arn}"
+      lambda_arn = "${aws_lambda_function.redirector.qualified_arn}"
     }
     max_ttl                 = 86400
     min_ttl                 = 0
