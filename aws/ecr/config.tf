@@ -47,19 +47,6 @@ resource "aws_ecr_lifecycle_policy" "repo" {
       "action": {
         "type": "expire"
       },
-      "description": "Expire untagged images older than 14 days",
-      "rulePriority": 2,
-      "selection": {
-        "countNumber": 14,
-        "countType": "sinceImagePushed",
-        "countUnit": "days",
-        "tagStatus": "untagged"
-      }
-    },
-    {
-      "action": {
-        "type": "expire"
-      },
       "description": "Keep 20 tagged images, expire all others",
       "rulePriority": 3,
       "selection": {
