@@ -3,7 +3,9 @@ variable "dead_letter_arn" {
 }
 
 variable "environment_variables" {
-  default = {}
+  default = {
+    DEFAULT = "default"
+  }
   type    = "map"
 }
 
