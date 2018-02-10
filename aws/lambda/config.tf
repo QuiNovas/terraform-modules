@@ -57,7 +57,7 @@ data "aws_iam_policy_document" "function" {
 }
 
 resource "aws_iam_role_policy" "log_group_access" {
-  name    = "log-group-access"
+  name    = "basic-access"
   policy  = "${data.aws_iam_policy_document.function.json}"
   role    = "${aws_iam_role.function.id}"
 }
