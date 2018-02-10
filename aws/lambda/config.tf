@@ -93,3 +93,21 @@ resource "aws_lambda_function" "function" {
   s3_object_version = "${data.aws_s3_bucket_object.function_package.version_id}"
   timeout           = "${var.timeout}"
 }
+
+data "aws_iam_policy_document" "invoke_function" {
+  statement {
+    actions   = [
+      "lambda:InvokeFunction"
+    ]
+    resources = [
+      "${aws_lambda_function.function.arn}"
+    ]
+    sid       = "AllowInvoke"
+  }
+}
+
+resource "aws_iam_policy" "invoke_function" {
+  name_prefix = "${var.name}-invoke"
+  policy      = "${data.aws_iam_policy_document.invoke_function.json}"
+}
+
