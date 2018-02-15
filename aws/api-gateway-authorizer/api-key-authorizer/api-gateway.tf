@@ -33,15 +33,3 @@ resource "aws_iam_role_policy" "authorizer_invocation" {
   policy  = "${data.aws_iam_policy_document.authorizer_invocation.json}"
   role    = "${aws_iam_role.authorizer_invocation.id}"
 }
-
-/*
-resource "aws_api_gateway_authorizer" "authorizer" {
-  authorizer_credentials = "${aws_iam_role.authorizer_invocation.arn}"
-  authorizer_result_ttl_in_seconds = 600
-  authorizer_uri = "arn:aws:apigateway:${data.aws_region.current.name}:lambda:path/2015-03-31/functions/${aws_lambda_function.authorizer.arn}/invocations"
-  identity_source = "method.request.header.Authorization"
-  identity_validation_expression = "^Basic .*"
-  name = "${var.name_prefix}-basic-authentication-authorizer"
-  rest_api_id = "${var.rest_api_id}"
-}
-*/
