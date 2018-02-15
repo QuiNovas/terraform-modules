@@ -22,10 +22,6 @@ resource "aws_cloudwatch_log_group" "authorizer_log_group" {
   retention_in_days = 7
 }
 
-data "aws_dynamodb_table" "groups" {
-  name = "${var.groups_table_name}"
-}
-
 data "aws_iam_policy_document" "authorizer" {
   statement {
     actions = [
@@ -43,7 +39,7 @@ data "aws_iam_policy_document" "authorizer" {
     ]
     resources = [
       "${aws_dynamodb_table.users.arn}",
-      "${data.aws_dynamodb_table.groups.arn}"
+      "${var.groups_table_arn}"
     ]
   }
 }
