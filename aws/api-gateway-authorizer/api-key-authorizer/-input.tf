@@ -1,5 +1,8 @@
+variable "groups_table_arn" {
+  type = "string"
+}
+
 variable "groups_table_name" {
-  default = ""
   type    = "string"
 }
 
