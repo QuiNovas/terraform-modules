@@ -1,3 +1,3 @@
-output "groups_table_name" {
+output "name" {
   value = "${aws_dynamodb_table.groups.name}"
 }
