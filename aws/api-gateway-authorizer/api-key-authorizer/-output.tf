@@ -14,6 +14,6 @@ output "lambda_function_arn" {
   value = "${aws_lambda_function.authorizer.arn}"
 }
 
-output "users_table_name" {
-  value = "${aws_dynamodb_table.users.name}"
+output "apikeys_table_name" {
+  value = "${aws_dynamodb_table.apikeys.name}"
 }
