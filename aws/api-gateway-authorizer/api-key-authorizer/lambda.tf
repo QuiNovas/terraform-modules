@@ -38,7 +38,7 @@ data "aws_iam_policy_document" "authorizer" {
       "dynamodb:*GetItem"
     ]
     resources = [
-      "${aws_dynamodb_table.users.arn}",
+      "${aws_dynamodb_table.apikeys.arn}",
       "${var.groups_table_arn}"
     ]
   }
@@ -59,7 +59,7 @@ resource "aws_lambda_function" "authorizer" {
   depends_on = ["aws_cloudwatch_log_group.authorizer_log_group"]
   environment {
     variables {
-      USERS_TABLE_NAME  = "${aws_dynamodb_table.users.name}"
+      USERS_TABLE_NAME  = "${aws_dynamodb_table.apikeys.name}"
       GROUPS_TABLE_NAME = "${var.groups_table_name}"
     }
   }
