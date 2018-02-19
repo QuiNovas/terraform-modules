@@ -59,7 +59,7 @@ resource "aws_lambda_function" "authorizer" {
   depends_on = ["aws_cloudwatch_log_group.authorizer_log_group"]
   environment {
     variables {
-      USERS_TABLE_NAME  = "${aws_dynamodb_table.apikeys.name}"
+      API_KEYS_TABLE  = "${aws_dynamodb_table.apikeys.name}"
       GROUPS_TABLE_NAME = "${var.groups_table_name}"
     }
   }
