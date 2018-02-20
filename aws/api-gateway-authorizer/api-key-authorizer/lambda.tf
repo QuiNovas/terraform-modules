@@ -52,15 +52,15 @@ resource "aws_iam_role_policy" "authorizer" {
 
 data "aws_s3_bucket_object" "basic_authentication_authorizer" {
   bucket  = "lambdalambdalambda-repo"
-  key     = "quinovas/api-key-authorizer/api-key-authorizer-0.0.1.zip"
+  key     = "quinovas/api-key-authorizer/api-key-authorizer-0.0.2.zip"
 }
 
 resource "aws_lambda_function" "authorizer" {
   depends_on = ["aws_cloudwatch_log_group.authorizer_log_group"]
   environment {
     variables {
-      API_KEYS_TABLE  = "${aws_dynamodb_table.apikeys.name}"
-      GROUPS_TABLE_NAME = "${var.groups_table_name}"
+      API_KEYS_TABLE_NAME = "${aws_dynamodb_table.apikeys.name}"
+      GROUPS_TABLE_NAME   = "${var.groups_table_name}"
     }
   }
   function_name     = "${var.name_prefix}-api-key-authorizer"
