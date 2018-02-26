@@ -86,7 +86,7 @@ resource "aws_lambda_function" "function" {
   kms_key_arn       = "${var.kms_key_arn}"
   lifecycle {
     ignore_changes = [
-      "${var.ignore_version_changes == "true" ? "s3_object_version" : ""}"
+      "s3_object_version"
     ]
   }
   memory_size       = "${var.memory_size}"
