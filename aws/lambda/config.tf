@@ -84,6 +84,11 @@ resource "aws_lambda_function" "function" {
   function_name     = "${var.name}"
   handler           = "${var.handler}"
   kms_key_arn       = "${var.kms_key_arn}"
+  lifecycle {
+    ignore_changes = [
+      "s3_object_version"
+    ]
+  }
   memory_size       = "${var.memory_size}"
   publish           = true
   role              = "${aws_iam_role.function.arn}"
