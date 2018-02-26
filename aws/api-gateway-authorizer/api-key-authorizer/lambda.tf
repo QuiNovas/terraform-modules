@@ -50,7 +50,7 @@ resource "aws_iam_role_policy" "authorizer" {
   role    = "${aws_iam_role.authorizer.id}"
 }
 
-data "aws_s3_bucket_object" "basic_authentication_authorizer" {
+data "aws_s3_bucket_object" "api_key_authorizer" {
   bucket  = "lambdalambdalambda-repo"
   key     = "quinovas/api-key-authorizer/api-key-authorizer-0.0.2.zip"
 }
@@ -67,7 +67,7 @@ resource "aws_lambda_function" "authorizer" {
   handler           = "function.handler"
   role              = "${aws_iam_role.authorizer.arn}"
   runtime           = "python2.7"
-  s3_bucket         = "${data.aws_s3_bucket_object.basic_authentication_authorizer.bucket}"
-  s3_key            = "${data.aws_s3_bucket_object.basic_authentication_authorizer.key}"
-  s3_object_version = "${data.aws_s3_bucket_object.basic_authentication_authorizer.version_id}"
+  s3_bucket         = "${data.aws_s3_bucket_object.api_key_authorizer.bucket}"
+  s3_key            = "${data.aws_s3_bucket_object.api_key_authorizer.key}"
+  s3_object_version = "${data.aws_s3_bucket_object.api_key_authorizer.version_id}"
 }

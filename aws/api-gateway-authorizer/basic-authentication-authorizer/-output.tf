@@ -7,7 +7,7 @@ data "aws_region" "current" {
 }
 
 output "authorizer_uri" {
-  value = "arn:aws:apigateway:${data.aws_region.current.name}:lambda:path/2015-03-31/functions/${aws_lambda_function.authorizer.arn}/invocations"
+  value = "${aws_lambda_function.authorizer.invoke_arn}"
 }
 
 output "lambda_function_arn" {
