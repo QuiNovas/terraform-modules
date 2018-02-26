@@ -13,6 +13,11 @@ variable "handler" {
   type = "string"
 }
 
+variable "ignore_version_changes" {
+  default = "false"
+  type    = "string"
+}
+
 variable "kms_key_arn" {
   type = "string"
 }
