@@ -8,9 +8,11 @@ variable "name" {
 }
 
 variable "record_set" {
-  type = "list"
+  default = []
+  type    = "list"
 }
 
 variable "record_set_count" {
-  type = "string"
+  default = 0
+  type    = "string"
 }
