@@ -62,15 +62,17 @@ resource "aws_s3_bucket" "audit" {
   }
 }
 
+data "aws_redshift_service_account" "current" {}
+
 data "aws_iam_policy_document" "audit" {
   statement {
     actions   = [
       "s3:GetBucketAcl",
-      "s3:PutObject"
+      "s3:PutObject*"
     ]
     principals {
       identifiers = [
-        "arn:aws:iam::${data.aws_caller_identity.current.account_id}:user/logs"
+        "${data.aws_redshift_service_account.current.arn}"
       ]
       type        = "AWS"
     }
