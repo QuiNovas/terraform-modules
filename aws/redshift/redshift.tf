@@ -67,7 +67,6 @@ data "aws_redshift_service_account" "current" {}
 data "aws_iam_policy_document" "audit" {
   statement {
     actions   = [
-      "s3:GetBucketAcl",
       "s3:PutObject*"
     ]
     principals {
@@ -77,10 +76,24 @@ data "aws_iam_policy_document" "audit" {
       type        = "AWS"
     }
     resources = [
-      "${aws_s3_bucket.audit.arn}",
       "${aws_s3_bucket.audit.arn}/*"
     ]
-    sid       = "AuditLogging"
+    sid       = "AllowAuditLogging"
+  }
+  statement {
+    actions   = [
+      "s3:GetBucketAcl"
+    ]
+    principals {
+      identifiers = [
+        "${data.aws_redshift_service_account.current.arn}"
+      ]
+      type        = "AWS"
+    }
+    resources = [
+      "${aws_s3_bucket.audit.arn}"
+    ]
+    sid       = "AllowGetBucketACL"
   }
 }
 
