@@ -48,7 +48,7 @@ variable "statement_timeout" {
 }
 
 variable "use_fips_ssl" {
-  default = false
+  default = 0
   type    = "string"
 }
 
