@@ -34,9 +34,11 @@ resource "aws_kms_alias" "main" {
 
 resource "aws_s3_bucket" "audit" {
   bucket = "${var.name}-audit"
+  /*
   lifecycle {
     prevent_destroy = true
   }
+  */
   lifecycle_rule {
     enabled = true
     expiration {
@@ -137,6 +139,11 @@ resource "aws_redshift_cluster" "main" {
     "${var.role_arns}"
   ]
   kms_key_id                          = "${aws_kms_key.main.arn}"
+  /*
+  lifecycle {
+    prevent_destroy = true
+  }
+  */
   logging {
     bucket_name = "${aws_s3_bucket.audit.id}"
     enable      = true
