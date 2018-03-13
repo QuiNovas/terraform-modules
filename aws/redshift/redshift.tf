@@ -33,7 +33,7 @@ resource "aws_kms_alias" "main" {
 }
 
 resource "aws_s3_bucket" "audit" {
-  bucket = "${var.name}"
+  bucket = "${var.name}-audit"
   lifecycle {
     prevent_destroy = true
   }
