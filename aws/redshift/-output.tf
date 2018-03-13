@@ -10,6 +10,10 @@ output "cluster_id" {
   value = "${aws_redshift_cluster.main.id}"
 }
 
+output "cluster_identifier" {
+  value = "${aws_redshift_cluster.main.cluster_identifier}"
+}
+
 output "vpc_id" {
   value = "${aws_vpc.main.id}"
 }
