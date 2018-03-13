@@ -22,6 +22,7 @@ resource "aws_kms_key" "main" {
   description         = "For Redshift cluster ${var.name}"
   is_enabled          = true
   enable_key_rotation = true
+  policy = ""
   tags {
     Name = "${var.name}-redshift"
   }
@@ -57,8 +58,7 @@ resource "aws_s3_bucket" "audit" {
   server_side_encryption_configuration {
     rule {
       apply_server_side_encryption_by_default {
-        kms_master_key_id = "${aws_kms_key.main.arn}"
-        sse_algorithm     = "aws:kms"
+        sse_algorithm     = "AES256"
       }
     }
   }
