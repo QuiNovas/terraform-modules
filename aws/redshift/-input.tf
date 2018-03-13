@@ -47,11 +47,6 @@ variable "statement_timeout" {
   type    = "string"
 }
 
-variable "use_fips_ssl" {
-  default = 0
-  type    = "string"
-}
-
 variable "whitelist_cidr_blocks" {
   default = [
     "0.0.0.0/0"

@@ -109,10 +109,6 @@ resource "aws_redshift_parameter_group" "main" {
     name  = "statement_timeout"
     value = "${var.statement_timeout}"
   }
-  parameter {
-    name  = "use_fips_ssl"
-    value = "${var.use_fips_ssl}"
-  }
 }
 
 resource "aws_redshift_cluster" "main" {
