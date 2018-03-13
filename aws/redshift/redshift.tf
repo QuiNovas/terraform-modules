@@ -23,12 +23,12 @@ resource "aws_kms_key" "main" {
   is_enabled          = true
   enable_key_rotation = true
   tags {
-    Name = "${var.name}"
+    Name = "${var.name}-redshift"
   }
 }
 
 resource "aws_kms_alias" "main" {
-  name          = "alias/${var.name}"
+  name          = "alias/${var.name}-redshift"
   target_key_id = "${aws_kms_key.main.id}"
 }
 
