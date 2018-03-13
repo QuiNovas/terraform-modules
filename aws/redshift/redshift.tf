@@ -117,6 +117,7 @@ resource "aws_redshift_cluster" "main" {
   cluster_parameter_group_name        = "${aws_redshift_parameter_group.main.name}"
   cluster_subnet_group_name           = "${aws_redshift_subnet_group.main.name}"
   cluster_type                        = "${var.number_of_nodes > 1 ? "multi-node" : "single-node"}"
+  database_name
   depends_on                          = [
     "aws_s3_bucket_policy.audit"
   ]

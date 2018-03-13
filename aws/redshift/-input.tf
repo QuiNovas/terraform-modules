@@ -6,6 +6,11 @@ variable "cidr_block" {
   type = "string"
 }
 
+variable "database_name" {
+  default = "dev"
+  type     = "string"
+}
+
 variable "log_bucket" {
   type = "string"
 }
