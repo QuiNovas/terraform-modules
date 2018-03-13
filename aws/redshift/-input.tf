@@ -51,3 +51,10 @@ variable "use_fips_ssl" {
   default = false
   type    = "string"
 }
+
+variable "whitelist_cidr_blocks" {
+  default = [
+    "0.0.0.0/0"
+  ]
+  type    = "list"
+}

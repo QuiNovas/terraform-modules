@@ -1,13 +1,3 @@
-resource "aws_subnet" "main" {
-  availability_zone = "${var.availability_zones[count.index]}"
-  cidr_block        = "${cidrsubnet(aws_vpc.main.cidr_block, 3, count.index)}"
-  count             = "${module.availability_zones_count.value}"
-  tags {
-    Name = "${var.name}-${var.availability_zones[count.index]}"
-  }
-  vpc_id            = "${aws_vpc.main.id}"
-}
-
 resource "aws_redshift_subnet_group" "main" {
   name        = "${var.name}"
   subnet_ids  = [
@@ -156,4 +146,7 @@ resource "aws_redshift_cluster" "main" {
   tags {
     Name = "${var.name}"
   }
+  vpc_security_group_ids              = [
+    "${aws_security_group.main.id}"
+  ]
 }
