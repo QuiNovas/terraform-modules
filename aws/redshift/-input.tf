@@ -6,6 +6,11 @@ variable "cidr_block" {
   type = "string"
 }
 
+variable "database_name" {
+  default = "dev"
+  type     = "string"
+}
+
 variable "log_bucket" {
   type = "string"
 }
@@ -47,7 +52,9 @@ variable "statement_timeout" {
   type    = "string"
 }
 
-variable "use_fips_ssl" {
-  default = false
-  type    = "string"
+variable "whitelist_cidr_blocks" {
+  default = [
+    "0.0.0.0/0"
+  ]
+  type    = "list"
 }

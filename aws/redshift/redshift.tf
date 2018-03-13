@@ -1,13 +1,3 @@
-resource "aws_subnet" "main" {
-  availability_zone = "${var.availability_zones[count.index]}"
-  cidr_block        = "${cidrsubnet(aws_vpc.main.cidr_block, 3, count.index)}"
-  count             = "${module.availability_zones_count.value}"
-  tags {
-    Name = "${var.name}-${var.availability_zones[count.index]}"
-  }
-  vpc_id            = "${aws_vpc.main.id}"
-}
-
 resource "aws_redshift_subnet_group" "main" {
   name        = "${var.name}"
   subnet_ids  = [
@@ -22,21 +12,24 @@ resource "aws_kms_key" "main" {
   description         = "For Redshift cluster ${var.name}"
   is_enabled          = true
   enable_key_rotation = true
+  policy = ""
   tags {
-    Name = "${var.name}"
+    Name = "${var.name}-redshift"
   }
 }
 
 resource "aws_kms_alias" "main" {
-  name          = "alias/${var.name}"
+  name          = "alias/${var.name}-redshift"
   target_key_id = "${aws_kms_key.main.id}"
 }
 
 resource "aws_s3_bucket" "audit" {
-  bucket = "${var.name}"
+  bucket = "${var.name}-audit"
+  /*
   lifecycle {
     prevent_destroy = true
   }
+  */
   lifecycle_rule {
     enabled = true
     expiration {
@@ -55,30 +48,44 @@ resource "aws_s3_bucket" "audit" {
   server_side_encryption_configuration {
     rule {
       apply_server_side_encryption_by_default {
-        kms_master_key_id = "${aws_kms_key.main.arn}"
-        sse_algorithm     = "aws:kms"
+        sse_algorithm     = "AES256"
       }
     }
   }
 }
 
+data "aws_redshift_service_account" "current" {}
+
 data "aws_iam_policy_document" "audit" {
   statement {
     actions   = [
-      "s3:GetBucketAcl",
-      "s3:PutObject"
+      "s3:PutObject*"
     ]
     principals {
       identifiers = [
-        "arn:aws:iam::${data.aws_caller_identity.current.account_id}:user/logs"
+        "${data.aws_redshift_service_account.current.arn}"
       ]
       type        = "AWS"
     }
     resources = [
-      "${aws_s3_bucket.audit.arn}",
       "${aws_s3_bucket.audit.arn}/*"
     ]
-    sid       = "AuditLogging"
+    sid       = "AllowAuditLogging"
+  }
+  statement {
+    actions   = [
+      "s3:GetBucketAcl"
+    ]
+    principals {
+      identifiers = [
+        "${data.aws_redshift_service_account.current.arn}"
+      ]
+      type        = "AWS"
+    }
+    resources = [
+      "${aws_s3_bucket.audit.arn}"
+    ]
+    sid       = "AllowGetBucketACL"
   }
 }
 
@@ -102,10 +109,6 @@ resource "aws_redshift_parameter_group" "main" {
     name  = "statement_timeout"
     value = "${var.statement_timeout}"
   }
-  parameter {
-    name  = "use_fips_ssl"
-    value = "${var.use_fips_ssl}"
-  }
 }
 
 resource "aws_redshift_cluster" "main" {
@@ -114,6 +117,7 @@ resource "aws_redshift_cluster" "main" {
   cluster_parameter_group_name        = "${aws_redshift_parameter_group.main.name}"
   cluster_subnet_group_name           = "${aws_redshift_subnet_group.main.name}"
   cluster_type                        = "${var.number_of_nodes > 1 ? "multi-node" : "single-node"}"
+  database_name                       = "${var.database_name}"
   depends_on                          = [
     "aws_s3_bucket_policy.audit"
   ]
@@ -122,6 +126,11 @@ resource "aws_redshift_cluster" "main" {
     "${var.role_arns}"
   ]
   kms_key_id                          = "${aws_kms_key.main.arn}"
+  /*
+  lifecycle {
+    prevent_destroy = true
+  }
+  */
   logging {
     bucket_name = "${aws_s3_bucket.audit.id}"
     enable      = true
@@ -134,4 +143,7 @@ resource "aws_redshift_cluster" "main" {
   tags {
     Name = "${var.name}"
   }
+  vpc_security_group_ids              = [
+    "${aws_security_group.main.id}"
+  ]
 }
