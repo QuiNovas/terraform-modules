@@ -62,13 +62,8 @@ resource "aws_iam_role_policy" "log_group_access" {
   role    = "${aws_iam_role.function.id}"
 }
 
-module "policy_arns_count" {
-  source  = "github.com/QuiNovas/terraform-modules//common/pass-thru-string"
-  value   = "${length(var.policy_arns)}"
-}
-
 resource "aws_iam_role_policy_attachment" "managed_policy" {
-  count       = "${module.policy_arns_count.value}"
+  count       = "${var.policy_arns_count}"
   policy_arn  = "${var.policy_arns[count.index]}"
   role        = "${aws_iam_role.function.name}"
 }
