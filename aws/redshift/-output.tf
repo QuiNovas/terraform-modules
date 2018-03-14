@@ -23,7 +23,7 @@ output "endpoint" {
 }
 
 output "host" {
-  value = "${split(":", aws_redshift_cluster.main.endpoint)[0]}"
+  value = "${element(split(":", aws_redshift_cluster.main.endpoint), 0)}"
 }
 
 output "port" {
