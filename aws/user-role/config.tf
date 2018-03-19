@@ -22,15 +22,10 @@ resource "aws_iam_role" "role" {
   name                = "${var.name}"
 }
 
-module "policy_arn_count" {
-  source  = "github.com/QuiNovas/terraform-modules//common/pass-thru-string"
-  value   = "${length(var.policy_arns)}"
-}
-
 resource "aws_iam_role_policy_attachment" "role" {
-  count = "${module.policy_arn_count.value}"
-  policy_arn = "${var.policy_arns[count.index]}"
-  role = "${aws_iam_role.role.name}"
+  count       = "${var.policy_arn_count}"
+  policy_arn  = "${var.policy_arns[count.index]}"
+  role        = "${aws_iam_role.role.name}"
 }
 
 module "group" {
