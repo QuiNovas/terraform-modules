@@ -1,4 +1,4 @@
-variable "acm_certificate_domain" {
+variable "acm_certificate_arn" {
   type = "string"
 }
 
@@ -23,7 +23,7 @@ variable "distribution_name" {
   type = "string"
 }
 
-variable "hosted_zone_name" {
+variable "hosted_zone_id" {
   type = "string"
 }
 
