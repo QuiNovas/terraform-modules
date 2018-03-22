@@ -38,7 +38,7 @@ resource "aws_vpc_endpoint_route_table_association" "s3" {
 resource "aws_subnet" "main" {
   availability_zone = "${var.availability_zones[count.index]}"
   cidr_block        = "${cidrsubnet(aws_vpc.main.cidr_block, 3, count.index)}"
-  count             = "${module.availability_zones_count.value}"
+  count             = "${var.availability_zones_count}"
   tags {
     Name = "${var.name}-${var.availability_zones[count.index]}"
   }
