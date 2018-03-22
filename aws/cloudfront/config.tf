@@ -1,11 +1,3 @@
-data "aws_route53_zone" "domain" {
-  name = "${var.hosted_zone_name}"
-}
-
-data "aws_acm_certificate" "certificate" {
-  domain = "${var.acm_certificate_domain}"
-}
-
 resource "aws_cloudfront_origin_access_identity" "origin" {
   comment = "${var.distribution_name}"
 }
@@ -60,7 +52,7 @@ resource "aws_cloudfront_distribution" "distribution" {
     }
   }
   viewer_certificate {
-    acm_certificate_arn       = "${data.aws_acm_certificate.certificate.arn}"
+    acm_certificate_arn       = "${var.acm_certificate_arn}"
     minimum_protocol_version  = "TLSv1.1_2016"
     ssl_support_method        = "sni-only"
   }
@@ -75,7 +67,7 @@ resource "aws_route53_record" "a_records" {
   count   = "${var.alias_count}"
   name    = "${var.aliases[count.index]}"
   type    = "A"
-  zone_id = "${data.aws_route53_zone.domain.zone_id}"
+  zone_id = "${var.hosted_zone_id}"
 }
 
 resource "aws_route53_record" "aaaa_records" {
@@ -87,5 +79,5 @@ resource "aws_route53_record" "aaaa_records" {
   count   = "${var.alias_count}"
   name    = "${var.aliases[count.index]}"
   type    = "AAAA"
-  zone_id = "${data.aws_route53_zone.domain.zone_id}"
+  zone_id = "${var.hosted_zone_id}"
 }
