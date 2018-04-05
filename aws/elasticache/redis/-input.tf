@@ -1,8 +1,8 @@
-variable "name_prefix" {
+variable "name" {
   type = "string"
 }
 
-variable "replication_name_prefix" {
+variable "replication_group_id" {
   type = "string"
 }
 
