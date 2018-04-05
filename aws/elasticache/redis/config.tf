@@ -17,7 +17,7 @@ resource "aws_security_group" "redis" {
   vpc_id  = "${var.vpc_id}"
 }
 
-resource "aws_security_group_rule" "self_ingress_redis" {
+resource "aws_security_group_rule" "self_ingress" {
   from_port         = 0
   protocol          = "-1"
   security_group_id = "${aws_security_group.redis.id}"
@@ -26,7 +26,7 @@ resource "aws_security_group_rule" "self_ingress_redis" {
   type              = "ingress"
 }
 
-resource "aws_security_group_rule" "all_egress_redis" {
+resource "aws_security_group_rule" "all_egress" {
   cidr_blocks       = [
     "0.0.0.0/0"
   ]
