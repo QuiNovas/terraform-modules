@@ -12,7 +12,7 @@ resource "aws_elasticache_subnet_group" "redis" {
 }
 
 resource "aws_security_group" "redis" {
-  name    = "${var.name}-redis"
+  name    = "${var.name}"
   tags    = "${merge(var.tags, local.name_tag)}"
   vpc_id  = "${var.vpc_id}"
 }
