@@ -11,7 +11,8 @@ variable "subnet_ids" {
 }
 
 variable "tags" {
-  type = "map"
+  default = {}
+  type    = "map"
 }
 
 variable "vpc_id" {

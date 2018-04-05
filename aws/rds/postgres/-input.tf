@@ -11,7 +11,8 @@ variable "name" {
 }
 
 variable "parameters" {
-  type = "list"
+  default = []
+  type    = "list"
 }
 
 variable "subnet_ids" {
@@ -19,7 +20,8 @@ variable "subnet_ids" {
 }
 
 variable "tags" {
-  type = "map"
+  default = {}
+  type    = "map"
 }
 
 variable "username" {
