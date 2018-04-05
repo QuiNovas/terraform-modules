@@ -48,7 +48,9 @@ resource "aws_elasticache_replication_group" "redis" {
   engine                        = "redis"
   engine_version                = "3.2.6"
   lifecycle {
-    ignore_changes = ["number_cache_clusters"]
+    ignore_changes = [
+      "number_cache_clusters"
+    ]
   }
   node_type                     = "cache.m3.medium"
   number_cache_clusters         = 2
