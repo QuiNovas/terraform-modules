@@ -12,7 +12,8 @@ variable "hash_key" {
 }
 
 variable "local_secondary_indexes" {
-  type = "list"
+  default = []
+  type    = "list"
 }
 
 variable "name" {
