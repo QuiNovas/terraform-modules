@@ -2,6 +2,10 @@ variable "attributes" {
   type = "list"
 }
 
+variable "autoscaling_service_role_arn" {
+  type = "string"
+}
+
 variable "global_secondary_indexes" {
   default = []
   type    = "list"
@@ -31,10 +35,6 @@ variable "read_capacity" {
 variable "range_key" {
   default = ""
   type    = "string"
-}
-
-variable "autoscaling_service_role_arn" {
-  type = "string"
 }
 
 variable "stream_view_type" {

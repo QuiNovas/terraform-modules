@@ -13,6 +13,8 @@ resource "aws_dynamodb_table" "table" {
   hash_key                = "${var.hash_key}"
   lifecycle {
     ignore_changes  = [
+      "global_secondary_index.read_capacity",
+      "global_secondary_index.write_capacity",
       "read_capacity",
       "write_capacity"
     ]
