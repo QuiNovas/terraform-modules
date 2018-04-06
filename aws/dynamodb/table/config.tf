@@ -1,5 +1,6 @@
 locals {
-  global_secondary_indexes_count = "${length(var.global_secondary_indexes)}"
+  global_secondary_indexes_count  = "${length(var.global_secondary_indexes)}"
+  tags                            = "${merge(var.tags, map("Name", "${var.name}"))}"
 }
 
 resource "aws_dynamodb_table" "table" {
@@ -27,7 +28,7 @@ resource "aws_dynamodb_table" "table" {
   }
   stream_enabled          = "${length(var.stream_view_type) > 0 ? true : false}"
   stream_view_type        = "${var.stream_view_type}"
-  tags                    = "${var.tags}"
+  tags                    = "${local.tags}"
   ttl {
     attribute_name  = "${var.ttl_attribute_name}"
     enabled         = "${length(var.ttl_attribute_name) > 0 ? true : false}"
