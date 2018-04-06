@@ -36,35 +36,11 @@ resource "aws_dynamodb_table" "table" {
   write_capacity          = "${var.write_capacity["min"]}"
 }
 
-data "aws_iam_policy_document" "autoscaling_assume_role" {
-  statement {
-    actions       = [
-      "sts:AssumeRole"
-    ]
-    principals {
-      identifiers = [
-        "dynamodb.application-autoscaling.amazonaws.com"
-      ]
-      type        = "Service"
-    }
-  }
-}
-
-resource "aws_iam_role" "autoscaling" {
-  assume_role_policy  = "${data.aws_iam_policy_document.autoscaling_assume_role.json}"
-  name                = "${var.name}-autoscaling"
-}
-
-resource "aws_iam_role_policy_attachment" "autoscaling" {
-  policy_arn  = "arn:aws:iam::aws:policy/aws-service-role/AWSApplicationAutoscalingDynamoDBTablePolicy"
-  role        = "${aws_iam_role.autoscaling.name}"
-}
-
 resource "aws_appautoscaling_target" "table_read" {
   max_capacity        = "${var.read_capacity["max"]}"
   min_capacity        = "${var.read_capacity["min"]}"
   resource_id         = "table/${aws_dynamodb_table.table.name}"
-  role_arn            = "${aws_iam_role.autoscaling.arn}"
+  role_arn            = "${var.autoscaling_service_role_arn}"
   scalable_dimension  = "dynamodb:table:ReadCapacityUnits"
   service_namespace   = "dynamodb"
 }
@@ -87,7 +63,7 @@ resource "aws_appautoscaling_target" "table_write" {
   max_capacity        = "${var.write_capacity["max"]}"
   min_capacity        = "${var.write_capacity["min"]}"
   resource_id         = "table/${aws_dynamodb_table.table.name}"
-  role_arn            = "${aws_iam_role.autoscaling.arn}"
+  role_arn            = "${var.autoscaling_service_role_arn}"
   scalable_dimension  = "dynamodb:table:WriteCapacityUnits"
   service_namespace   = "dynamodb"
 }
@@ -111,7 +87,7 @@ resource "aws_appautoscaling_target" "global_secondary_index_read" {
   max_capacity        = "${var.read_capacity["max"]}"
   min_capacity        = "${var.read_capacity["min"]}"
   resource_id         = "table/${aws_dynamodb_table.table.name}/index/${lookup(var.global_secondary_indexes[count.index], "name")}"
-  role_arn            = "${aws_iam_role.autoscaling.arn}"
+  role_arn            = "${var.autoscaling_service_role_arn}"
   scalable_dimension  = "dynamodb:index:ReadCapacityUnits"
   service_namespace   = "dynamodb"
 }
@@ -135,7 +111,7 @@ resource "aws_appautoscaling_target" "global_secondary_index_write" {
   max_capacity        = "${var.write_capacity["max"]}"
   min_capacity        = "${var.write_capacity["min"]}"
   resource_id         = "table/${aws_dynamodb_table.table.name}/index/${lookup(var.global_secondary_indexes[count.index], "name")}"
-  role_arn            = "${aws_iam_role.autoscaling.arn}"
+  role_arn            = "${var.autoscaling_service_role_arn}"
   scalable_dimension  = "dynamodb:index:WriteCapacityUnits"
   service_namespace   = "dynamodb"
 }

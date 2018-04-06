@@ -33,6 +33,10 @@ variable "range_key" {
   type    = "string"
 }
 
+variable "autoscaling_service_role_arn" {
+  type = "string"
+}
+
 variable "stream_view_type" {
   default = ""
   type    = "string"
