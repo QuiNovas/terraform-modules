@@ -128,7 +128,7 @@ resource "aws_appautoscaling_policy" "global_secondary_index_write" {
   service_namespace   = "${aws_appautoscaling_target.global_secondary_index_write.*.service_namespace[count.index]}"
   target_tracking_scaling_policy_configuration {
     predefined_metric_specification {
-      predefined_metric_type = "DynamoDBReadCapacityUtilization"
+      predefined_metric_type = "DynamoDBWriteCapacityUtilization"
     }
     target_value = 70
   }
