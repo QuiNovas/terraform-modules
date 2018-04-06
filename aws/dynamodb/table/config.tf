@@ -24,7 +24,7 @@ resource "aws_dynamodb_table" "table" {
     "${var.local_secondary_indexes}"
   ]
   name                    = "${var.name}"
-  read_capacity           = "${var.read_capacity["min"]}"
+  read_capacity           = 1
   server_side_encryption {
     enabled = true
   }
@@ -35,7 +35,7 @@ resource "aws_dynamodb_table" "table" {
     attribute_name  = "${var.ttl_attribute_name}"
     enabled         = "${length(var.ttl_attribute_name) > 0 ? true : false}"
   }
-  write_capacity          = "${var.write_capacity["min"]}"
+  write_capacity          = 1
 }
 
 resource "aws_appautoscaling_target" "table_read" {
