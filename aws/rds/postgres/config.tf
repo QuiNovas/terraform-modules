@@ -102,6 +102,9 @@ resource "aws_db_instance" "rds" {
   identifier                  = "${var.name}"
   instance_class              = "${var.instance_class}"
   kms_key_id                  = "${aws_kms_key.rds.arn}"
+  lifecycle {
+    prevent_destroy = true
+  }
   monitoring_interval         = 60
   monitoring_role_arn         = "${aws_iam_role.monitoring.arn}"
   multi_az                    = true
