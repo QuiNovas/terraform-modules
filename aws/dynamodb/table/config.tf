@@ -97,6 +97,7 @@ resource "aws_appautoscaling_target" "global_secondary_index_read" {
 resource "aws_appautoscaling_policy" "global_secondary_index_read" {
   count               = "${local.global_secondary_indexes_count}"
   name                = "DynamoDBReadCapacityUtilization:${aws_appautoscaling_target.global_secondary_index_read.*.resource_id[count.index]}"
+  policy_type         = "TargetTrackingScaling"
   resource_id         = "${aws_appautoscaling_target.global_secondary_index_read.*.resource_id[count.index]}"
   scalable_dimension  = "${aws_appautoscaling_target.global_secondary_index_read.*.scalable_dimension[count.index]}"
   service_namespace   = "${aws_appautoscaling_target.global_secondary_index_read.*.service_namespace[count.index]}"
@@ -121,6 +122,7 @@ resource "aws_appautoscaling_target" "global_secondary_index_write" {
 resource "aws_appautoscaling_policy" "global_secondary_index_write" {
   count               = "${local.global_secondary_indexes_count}"
   name                = "DynamoDBReadCapacityUtilization:${aws_appautoscaling_target.global_secondary_index_write.*.resource_id[count.index]}"
+  policy_type         = "TargetTrackingScaling"
   resource_id         = "${aws_appautoscaling_target.global_secondary_index_write.*.resource_id[count.index]}"
   scalable_dimension  = "${aws_appautoscaling_target.global_secondary_index_write.*.scalable_dimension[count.index]}"
   service_namespace   = "${aws_appautoscaling_target.global_secondary_index_write.*.service_namespace[count.index]}"
