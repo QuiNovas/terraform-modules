@@ -16,6 +16,7 @@ resource "aws_dynamodb_table" "table" {
       "global_secondary_index.read_capacity",
       "global_secondary_index.write_capacity",
       "read_capacity",
+      "ttl",
       "write_capacity"
     ]
     prevent_destroy = true
