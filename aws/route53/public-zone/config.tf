@@ -7,7 +7,7 @@ resource "aws_route53_zone" "zone" {
 }
 
 resource "aws_route53_record" "record" {
-  count   = "${var.record_set_count}"
+  count   = "${local.record_set_count}"
   name    = "${lookup(var.record_set[count.index], "name")}"
   records = [
     "${split(",", lookup(var.record_set[count.index], "records"))}"

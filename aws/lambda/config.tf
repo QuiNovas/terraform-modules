@@ -63,7 +63,7 @@ resource "aws_iam_role_policy" "log_group_access" {
 }
 
 resource "aws_iam_role_policy_attachment" "managed_policy" {
-  count       = "${var.policy_arns_count}"
+  count       = "${local.policy_arns_count}"
   policy_arn  = "${var.policy_arns[count.index]}"
   role        = "${aws_iam_role.function.name}"
 }

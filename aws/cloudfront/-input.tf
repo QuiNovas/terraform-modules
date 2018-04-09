@@ -2,10 +2,6 @@ variable "acm_certificate_arn" {
   type = "string"
 }
 
-variable "alias_count" {
-  type = "string"
-}
-
 variable "aliases" {
   type = "list"
 }

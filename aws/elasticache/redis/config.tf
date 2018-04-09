@@ -1,9 +1,3 @@
-locals {
-  name_tag = {
-    Name = "${var.name}"
-  }
-}
-
 resource "aws_elasticache_subnet_group" "redis" {
   name        = "${var.name}"
   subnet_ids  = [
@@ -13,7 +7,7 @@ resource "aws_elasticache_subnet_group" "redis" {
 
 resource "aws_security_group" "redis" {
   name    = "${var.name}"
-  tags    = "${merge(var.tags, local.name_tag)}"
+  tags    = "${local.tags}"
   vpc_id  = "${var.vpc_id}"
 }
 
@@ -70,6 +64,6 @@ resource "aws_elasticache_replication_group" "redis" {
   snapshot_retention_limit      = 7
   snapshot_window               = "06:00-07:00"
   subnet_group_name             = "${aws_elasticache_subnet_group.redis.name}"
-  tags                          = "${merge(var.tags, local.name_tag)}"
+  tags                          = "${local.tags}"
   transit_encryption_enabled    = true
 }

@@ -64,7 +64,7 @@ resource "aws_route53_record" "a_records" {
     name                    = "${aws_cloudfront_distribution.distribution.domain_name}"
     zone_id                 = "${aws_cloudfront_distribution.distribution.hosted_zone_id}"
   }
-  count   = "${var.alias_count}"
+  count   = "${local.alias_count}"
   name    = "${var.aliases[count.index]}"
   type    = "A"
   zone_id = "${var.hosted_zone_id}"
@@ -76,7 +76,7 @@ resource "aws_route53_record" "aaaa_records" {
     name                    = "${aws_cloudfront_distribution.distribution.domain_name}"
     zone_id                 = "${aws_cloudfront_distribution.distribution.hosted_zone_id}"
   }
-  count   = "${var.alias_count}"
+  count   = "${local.alias_count}"
   name    = "${var.aliases[count.index]}"
   type    = "AAAA"
   zone_id = "${var.hosted_zone_id}"

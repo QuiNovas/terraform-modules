@@ -1,7 +1,3 @@
-locals {
-  tags = "${merge(var.tags, map("Name", "${var.name}"))}"
-}
-
 resource "aws_db_subnet_group" "rds" {
   name        = "${var.name}"
   subnet_ids  = ["${var.subnet_ids}"]

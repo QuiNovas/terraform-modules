@@ -23,7 +23,7 @@ resource "aws_iam_role" "role" {
 }
 
 resource "aws_iam_role_policy_attachment" "role" {
-  count       = "${var.policy_arn_count}"
+  count       = "${local.policy_arn_count}"
   policy_arn  = "${var.policy_arns[count.index]}"
   role        = "${aws_iam_role.role.name}"
 }
