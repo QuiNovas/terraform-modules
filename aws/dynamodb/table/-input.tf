@@ -26,8 +26,8 @@ variable "name" {
 
 variable "read_capacity" {
   default = {
-    max = 5
-    min = 5
+    max = 1
+    min = 1
   }
   type    = "map"
 }
