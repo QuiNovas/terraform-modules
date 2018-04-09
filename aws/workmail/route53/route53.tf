@@ -9,7 +9,7 @@ resource "aws_route53_record" "autodiscover" {
 }
 
 resource "aws_route53_record" "domain_keys" {
-  count   = "${var.domain_key_prefixes_count}"
+  count   = "${local.domain_key_prefixes_count}"
   name    = "${var.domain_key_prefixes[count.index]}._domainkey.${var.domain}"
   records = [
     "${var.domain_key_prefixes[count.index]}.dkim.amazonses.com."

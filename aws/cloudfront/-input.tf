@@ -2,10 +2,6 @@ variable "acm_certificate_arn" {
   type = "string"
 }
 
-variable "alias_count" {
-  type = "string"
-}
-
 variable "aliases" {
   type = "list"
 }
@@ -20,10 +16,6 @@ variable "default_root_object" {
 }
 
 variable "distribution_name" {
-  type = "string"
-}
-
-variable "hosted_zone_id" {
   type = "string"
 }
 
