@@ -40,8 +40,7 @@ resource "aws_cloudfront_distribution" "distribution" {
   is_ipv6_enabled     = true
   lifecycle {
     ignore_changes = [
-      "default_cache_behavior.allowed_methods",
-      "default_cache_behavior.cached_methods"
+      "default_cache_behavior"
     ]
   }
   price_class         = "${var.price_class}"
