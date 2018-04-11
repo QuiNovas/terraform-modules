@@ -9,12 +9,12 @@ resource "aws_cloudfront_distribution" "distribution" {
   comment           = "${var.comment}"
   default_cache_behavior {
     allowed_methods = [
-      "GET",
-      "HEAD"
+      "HEAD",
+      "GET"
     ]
     cached_methods = [
-      "GET",
-      "HEAD"
+      "HEAD",
+      "GET"
     ]
     default_ttl             = 3600
     forwarded_values {
@@ -38,6 +38,11 @@ resource "aws_cloudfront_distribution" "distribution" {
   ]
   enabled             = true
   is_ipv6_enabled     = true
+  lifecycle {
+    ignore_changes = [
+      "default_cache_behavior"
+    ]
+  }
   price_class         = "${var.price_class}"
   origin {
     domain_name = "${aws_s3_bucket.origin.bucket_domain_name}"
