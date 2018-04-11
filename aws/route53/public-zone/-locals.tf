@@ -1,3 +1,3 @@
 locals {
-  record_set_count = "${length(var.record_set)}"
+  record_set_count = "${var.record_set_count}"
 }

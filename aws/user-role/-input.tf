@@ -11,5 +11,11 @@ variable "name" {
 }
 
 variable "policy_arns" {
-  type = "list"
+  default = []
+  type    = "list"
+}
+
+variable "policy_arn_count" {
+  default = 0
+  type    = "string"
 }

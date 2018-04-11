@@ -11,6 +11,11 @@ variable "global_secondary_indexes" {
   type    = "list"
 }
 
+variable "global_secondary_indexes_count" {
+  default = 0
+  type    = "string"
+}
+
 variable "hash_key" {
   type = "string"
 }

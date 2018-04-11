@@ -1,3 +1,3 @@
 locals {
-  availability_zones_count = "${length(var.availability_zones)}"
+  availability_zones_count = "${var.availability_zones_count}"
 }

@@ -36,6 +36,11 @@ variable "policy_arns" {
   type    = "list"
 }
 
+variable "policy_arns_count" {
+  default = 0
+  type    = "string"
+}
+
 variable "root_block_device" {
   default = {}
   type    = "map"
