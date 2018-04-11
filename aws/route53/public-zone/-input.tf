@@ -11,3 +11,8 @@ variable "record_set" {
   default = []
   type    = "list"
 }
+
+variable "record_set_count" {
+  default = 0
+  type    = "string"
+}

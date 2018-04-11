@@ -2,6 +2,10 @@ variable "availability_zones" {
   type = "list"
 }
 
+variable "availability_zones_count" {
+  type = "string"
+}
+
 variable "cidr_block" {
   type = "string"
 }

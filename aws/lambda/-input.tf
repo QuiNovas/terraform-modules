@@ -28,7 +28,12 @@ variable "name" {
 
 variable "policy_arns" {
   default = []
-  type    = "list"
+  type = "list"
+}
+
+variable "policy_arns_count" {
+  default = 0
+  type    = "string"
 }
 
 variable "runtime" {
