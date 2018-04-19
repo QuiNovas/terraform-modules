@@ -17,3 +17,7 @@ output "name" {
 output "qualified_arn" {
   value = "${aws_lambda_function.function.qualified_arn}"
 }
+
+output "qualified_invoke_arn" {
+  value = "arn:aws:apigateway:${data.aws_region.current.name}:lambda:path/2015-03-31/functions/${aws_lambda_function.function.qualified_arn}/invocations"
+}

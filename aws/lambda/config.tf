@@ -119,3 +119,4 @@ resource "aws_iam_policy" "invoke_function" {
   policy      = "${data.aws_iam_policy_document.invoke_function.json}"
 }
 
+data "aws_region" "current" {}
