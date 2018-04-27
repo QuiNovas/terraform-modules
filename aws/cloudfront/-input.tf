@@ -11,8 +11,8 @@ variable "comment" {
 }
 
 variable "default_root_object" {
-  type = "string"
   default = "index.html"
+  type    = "string"
 }
 
 variable "distribution_name" {
@@ -24,6 +24,11 @@ variable "log_bucket" {
 }
 
 variable "price_class" {
-  type = "string"
   default = "PriceClass_100"
+  type    = "string"
+}
+
+variable "web_acl_id" {
+  default = ""
+  type    = "string"
 }
