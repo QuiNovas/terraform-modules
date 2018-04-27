@@ -56,6 +56,9 @@ resource "aws_cloudfront_distribution" "distribution" {
       restriction_type = "none"
     }
   }
+  tags {
+    Name = "${var.distribution_name}"
+  }
   viewer_certificate {
     acm_certificate_arn       = "${var.acm_certificate_arn}"
     minimum_protocol_version  = "TLSv1.1_2016"
