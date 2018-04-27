@@ -2,11 +2,11 @@ variable "name" {
   type = "string"
 }
 
-variable "replication_group_description" {
+variable "group_description" {
   type = "string"
 }
 
-variable "replication_group_id" {
+variable "group_id" {
   type = "string"
 }
 
