@@ -7,6 +7,13 @@ resource "aws_s3_bucket" "origin" {
     target_bucket = "${var.log_bucket}"
     target_prefix = "s3/${var.distribution_name}/"
   }
+  server_side_encryption_configuration {
+    rule {
+      apply_server_side_encryption_by_default {
+        sse_algorithm = "AES256"
+      }
+    }
+  }
   versioning {
     enabled = true
   }
@@ -36,54 +43,6 @@ data "aws_iam_policy_document" "origin_bucket_policy" {
       "${aws_s3_bucket.origin.arn}/*"
     ]
     sid = "DenyUnsecuredTransport"
-  }
-  statement {
-    actions = [
-      "s3:PutObject"
-    ]
-    condition {
-      test = "StringNotEquals"
-      values = [
-        "AES256"
-      ]
-      variable = "s3:x-amz-server-side-encryption"
-    }
-    effect = "Deny"
-    principals {
-      identifiers = [
-        "*"
-      ]
-      type = "AWS"
-    }
-    resources = [
-      "${aws_s3_bucket.origin.arn}",
-      "${aws_s3_bucket.origin.arn}/*"
-    ]
-    sid = "DenyIncorrectEncryptionHeader"
-  }
-  statement {
-    actions = [
-      "s3:PutObject"
-    ]
-    condition {
-      test = "Null"
-      values = [
-        "true"
-      ]
-      variable = "s3:x-amz-server-side-encryption"
-    }
-    effect = "Deny"
-    principals {
-      identifiers = [
-        "*"
-      ]
-      type = "AWS"
-    }
-    resources = [
-      "${aws_s3_bucket.origin.arn}",
-      "${aws_s3_bucket.origin.arn}/*"
-    ]
-    sid = "DenyUnencryptedObjectUploads"
   }
   statement {
     actions = [
