@@ -2,6 +2,10 @@ variable "name" {
   type = "string"
 }
 
+variable "replication_group_description" {
+  type = "string"
+}
+
 variable "replication_group_id" {
   type = "string"
 }
