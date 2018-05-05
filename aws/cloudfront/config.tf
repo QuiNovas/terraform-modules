@@ -46,6 +46,11 @@ resource "aws_cloudfront_distribution" "distribution" {
       "default_cache_behavior"
     ]
   }
+  logging_config {
+    bucket          = "${var.log_bucket}"
+    include_cookies = false
+    prefix          = "cloudfront/${var.distribution_name}/"
+  }
   ordered_cache_behavior  = [
     "${var.ordered_cache_behaviors}"
   ]
