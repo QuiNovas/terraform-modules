@@ -38,14 +38,6 @@ variable "price_class" {
   type    = "string"
 }
 
-variable "geo_restriction" {
-  default = {
-    locations         = []
-    restriction_type  = "none"
-  }
-  type    = "map"
-}
-
 variable "tags" {
   default = {}
   type    = "map"

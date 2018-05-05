@@ -58,7 +58,9 @@ resource "aws_cloudfront_distribution" "distribution" {
   }
   price_class             = "${var.price_class}"
   restrictions {
-    geo_restriction = "${var.geo_restriction}"
+    geo_restriction {
+      restriction_type = "none"
+    }
   }
   tags                    = "${local.tags}"
   viewer_certificate {
