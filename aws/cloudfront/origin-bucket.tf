@@ -14,6 +14,7 @@ resource "aws_s3_bucket" "origin" {
       }
     }
   }
+  tags   = "${local.tags}"
   versioning {
     enabled = true
   }

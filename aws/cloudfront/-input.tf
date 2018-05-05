@@ -10,6 +10,11 @@ variable "comment" {
   type = "string"
 }
 
+variable "custom_error_responses" {
+  default = []
+  type    = "list"
+}
+
 variable "default_root_object" {
   default = "index.html"
   type    = "string"
@@ -23,9 +28,28 @@ variable "log_bucket" {
   type = "string"
 }
 
+variable "ordered_cache_behaviors" {
+  default = []
+  type    = "list"
+}
+
 variable "price_class" {
   default = "PriceClass_100"
   type    = "string"
+}
+
+variable "restrictions" {
+  default = {
+    geo_restriction {
+      restriction_type = "none"
+    }
+  }
+  type    = "map"
+}
+
+variable "tags" {
+  default = {}
+  type    = "map"
 }
 
 variable "web_acl_id" {

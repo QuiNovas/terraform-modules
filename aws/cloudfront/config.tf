@@ -3,10 +3,13 @@ resource "aws_cloudfront_origin_access_identity" "origin" {
 }
 
 resource "aws_cloudfront_distribution" "distribution" {
-  aliases           = [
+  aliases                 = [
     "${var.aliases}"
   ]
-  comment           = "${var.comment}"
+  comment                 = "${var.comment}"
+  custom_error_response   = [
+    "${var.custom_error_responses}"
+  ]
   default_cache_behavior {
     allowed_methods = [
       "HEAD",
@@ -32,18 +35,25 @@ resource "aws_cloudfront_distribution" "distribution" {
     target_origin_id        = "${var.distribution_name}"
     viewer_protocol_policy  = "redirect-to-https"
   }
-  default_root_object = "${var.default_root_object}"
-  depends_on          = [
+  default_root_object     = "${var.default_root_object}"
+  depends_on              = [
     "aws_lambda_permission.redirector"
   ]
-  enabled             = true
-  is_ipv6_enabled     = true
+  enabled                 = true
+  is_ipv6_enabled         = true
   lifecycle {
     ignore_changes = [
       "default_cache_behavior"
     ]
   }
-  price_class         = "${var.price_class}"
+  logging_config {
+    bucket          = "${var.log_bucket}"
+    include_cookies = false
+    prefix          = "${var.distribution_name}"
+  }
+  ordered_cache_behavior  = [
+    "${var.ordered_cache_behaviors}"
+  ]
   origin {
     domain_name = "${aws_s3_bucket.origin.bucket_domain_name}"
     origin_id   = "${var.distribution_name}"
@@ -51,14 +61,9 @@ resource "aws_cloudfront_distribution" "distribution" {
       origin_access_identity = "${aws_cloudfront_origin_access_identity.origin.cloudfront_access_identity_path}"
     }
   }
-  restrictions {
-    geo_restriction {
-      restriction_type = "none"
-    }
-  }
-  tags {
-    Name = "${var.distribution_name}"
-  }
+  price_class             = "${var.price_class}"
+  restrictions            = "${var.restrictions}"
+  tags                    = "${local.tags}"
   viewer_certificate {
     acm_certificate_arn       = "${var.acm_certificate_arn}"
     minimum_protocol_version  = "TLSv1.1_2016"
