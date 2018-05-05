@@ -57,7 +57,9 @@ resource "aws_cloudfront_distribution" "distribution" {
     }
   }
   price_class             = "${var.price_class}"
-  restrictions            = "${var.restrictions}"
+  restrictions            = [
+    "${var.restrictions}"
+  ]
   tags                    = "${local.tags}"
   viewer_certificate {
     acm_certificate_arn       = "${var.acm_certificate_arn}"
