@@ -1,3 +1,7 @@
+data "aws_s3_bucket" "log_bucket" {
+  bucket = "${var.log_bucket}"
+}
+
 resource "aws_cloudfront_origin_access_identity" "origin" {
   comment = "${var.distribution_name}"
 }
@@ -47,7 +51,7 @@ resource "aws_cloudfront_distribution" "distribution" {
     ]
   }
   logging_config {
-    bucket          = "${var.log_bucket}"
+    bucket          = "${data.aws_s3_bucket.log_bucket.bucket_domain_name}"
     include_cookies = false
     prefix          = "cloudfront/${var.distribution_name}/"
   }

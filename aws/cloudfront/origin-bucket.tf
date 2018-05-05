@@ -4,7 +4,7 @@ resource "aws_s3_bucket" "origin" {
     prevent_destroy = true
   }
   logging {
-    target_bucket = "${var.log_bucket}"
+    target_bucket = "${data.aws_s3_bucket.log_bucket.id}"
     target_prefix = "s3/${var.distribution_name}/"
   }
   server_side_encryption_configuration {
