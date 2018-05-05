@@ -56,8 +56,8 @@ resource "aws_elasticache_replication_group" "redis" {
   node_type                     = "cache.m3.medium"
   number_cache_clusters         = 2
   port                          = 6379
-  replication_group_description = "${var.replication_group_id}"
-  replication_group_id          = "${var.replication_group_id}"
+  replication_group_description = "${var.group_description}"
+  replication_group_id          = "${var.group_id}"
   security_group_ids            = [
     "${aws_security_group.redis.id}"
   ]

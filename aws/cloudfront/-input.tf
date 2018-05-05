@@ -10,9 +10,14 @@ variable "comment" {
   type = "string"
 }
 
+variable "custom_error_responses" {
+  default = []
+  type    = "list"
+}
+
 variable "default_root_object" {
-  type = "string"
   default = "index.html"
+  type    = "string"
 }
 
 variable "distribution_name" {
@@ -23,7 +28,22 @@ variable "log_bucket" {
   type = "string"
 }
 
+variable "ordered_cache_behaviors" {
+  default = []
+  type    = "list"
+}
+
 variable "price_class" {
-  type = "string"
   default = "PriceClass_100"
+  type    = "string"
+}
+
+variable "tags" {
+  default = {}
+  type    = "map"
+}
+
+variable "web_acl_id" {
+  default = ""
+  type    = "string"
 }
