@@ -25,11 +25,9 @@ resource "aws_kms_alias" "main" {
 
 resource "aws_s3_bucket" "audit" {
   bucket = "${var.name}-audit"
-  /*
   lifecycle {
     prevent_destroy = true
   }
-  */
   lifecycle_rule {
     enabled = true
     expiration {
@@ -86,6 +84,30 @@ data "aws_iam_policy_document" "audit" {
       "${aws_s3_bucket.audit.arn}"
     ]
     sid       = "AllowGetBucketACL"
+  }
+  statement {
+    actions = [
+      "s3:*"
+    ]
+    condition {
+      test = "Bool"
+      values = [
+        "false"
+      ]
+      variable = "aws:SecureTransport"
+    }
+    effect = "Deny"
+    principals {
+      identifiers = [
+        "*"
+      ]
+      type = "AWS"
+    }
+    resources = [
+      "${aws_s3_bucket.audit.arn}",
+      "${aws_s3_bucket.audit.arn}/*"
+    ]
+    sid = "DenyUnsecuredTransport"
   }
 }
 
