@@ -4,7 +4,7 @@ resource "aws_iam_group" "remote_state_backend" {
 
 data "aws_iam_policy_document" "remote_state_backend_group" {
   statement {
-    actions = [
+    actions   = [
       "s3:Get*",
       "s3:List*",
       "s3:Put*"
@@ -13,10 +13,10 @@ data "aws_iam_policy_document" "remote_state_backend_group" {
       "${aws_s3_bucket.remote_state_backend.arn}",
       "${aws_s3_bucket.remote_state_backend.arn}/*"
     ]
-    sid = "AllowAccessToRemoteStateBackend"
+    sid       = "AllowAccessToRemoteStateBackend"
   }
   statement {
-    actions = [
+    actions   = [
       "kms:Encrypt*",
       "kms:Decrypt*",
       "kms:DescribeKey",
@@ -26,10 +26,10 @@ data "aws_iam_policy_document" "remote_state_backend_group" {
     resources = [
       "${aws_kms_key.remote_state_backend.arn}"
     ]
-    sid = "AllowUseOfRemoteStateBackendKMSKey"
+    sid       = "AllowUseOfRemoteStateBackendKMSKey"
   }
   statement {
-    actions = [
+    actions   = [
       "dynamodb:Batch*",
       "dynamodb:DeleteItem",
       "dynamodb:Describe*",
@@ -42,18 +42,18 @@ data "aws_iam_policy_document" "remote_state_backend_group" {
     resources = [
       "${aws_dynamodb_table.remote_state_backend.arn}"
     ]
-    sid = "AllowAccessToLockTable"
+    sid       = "AllowAccessToLockTable"
   }
 }
 
 resource "aws_iam_group_policy" "remote_state_backend" {
-  name = "remote-state-backend-access"
-  group = "${aws_iam_group.remote_state_backend.id}"
-  policy = "${data.aws_iam_policy_document.remote_state_backend_group.json}"
+  name    = "remote-state-backend-access"
+  group   = "${aws_iam_group.remote_state_backend.id}"
+  policy  = "${data.aws_iam_policy_document.remote_state_backend_group.json}"
 }
 
 resource "aws_iam_group_membership" "remote_state_backend" {
   group = "${aws_iam_group.remote_state_backend.name}"
-  name = "remote-state-backend-membership"
+  name  = "remote-state-backend-membership"
   users = ["${aws_iam_user.remote_state_backend.*.name}"]
 }
