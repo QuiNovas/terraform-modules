@@ -1,74 +1,74 @@
 data "aws_iam_policy_document" "secure_bucket_policy" {
   statement {
-    actions = [
+    actions   = [
       "s3:*"
     ]
     condition {
-      test = "Bool"
-      values = [
+      test      = "Bool"
+      values    = [
         "false"
       ]
-      variable = "aws:SecureTransport"
+      variable  = "aws:SecureTransport"
     }
-    effect = "Deny"
+    effect    = "Deny"
     principals {
       identifiers = [
         "*"
       ]
-      type = "AWS"
+      type        = "AWS"
     }
     resources = [
       "${var.bucket_arn}",
       "${var.bucket_arn}/*"
     ]
-    sid = "DenyUnsecuredTransport"
+    sid       = "DenyUnsecuredTransport"
   }
   statement {
-    actions = [
+    actions   = [
       "s3:PutObject"
     ]
     condition {
-      test = "StringNotEquals"
-      values = [
+      test      = "StringNotEquals"
+      values    = [
         "${var.kms_key_arns}"
       ]
-      variable = "s3:x-amz-server-side-encryption-aws-kms-key-id"
+      variable  = "s3:x-amz-server-side-encryption-aws-kms-key-id"
     }
-    effect = "Deny"
+    effect    = "Deny"
     principals {
       identifiers = [
         "*"
       ]
-      type = "AWS"
+      type        = "AWS"
     }
     resources = [
       "${var.bucket_arn}",
       "${var.bucket_arn}/*"
     ]
-    sid = "DenyIncorrectEncryptionHeader"
+    sid       = "DenyIncorrectEncryptionHeader"
   }
   statement {
-    actions = [
+    actions   = [
       "s3:PutObject"
     ]
     condition {
-      test = "Null"
-      values = [
+      test      = "Null"
+      values    = [
         "true"
       ]
-      variable = "s3:x-amz-server-side-encryption"
+      variable  = "s3:x-amz-server-side-encryption"
     }
-    effect = "Deny"
+    effect    = "Deny"
     principals {
       identifiers = [
         "*"
       ]
-      type = "AWS"
+      type        = "AWS"
     }
     resources = [
       "${var.bucket_arn}",
       "${var.bucket_arn}/*"
     ]
-    sid = "DenyUnencryptedObjectUploads"
+    sid       = "DenyUnencryptedObjectUploads"
   }
 }
