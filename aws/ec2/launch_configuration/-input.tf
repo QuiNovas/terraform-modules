@@ -31,6 +31,11 @@ variable "name" {
   type = "string"
 }
 
+variable "placement_tenancy" {
+  default = "default"
+  type    = "string"
+}
+
 variable "policy_arns" {
   default = []
   type    = "list"
@@ -56,3 +61,7 @@ variable "user_data" {
   type    = "string"
 }
 
+variable "user_data_base64" {
+  default = ""
+  type    = "string"
+}

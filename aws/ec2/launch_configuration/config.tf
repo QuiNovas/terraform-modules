@@ -43,7 +43,7 @@ resource "aws_launch_configuration" "launch_config" {
   ebs_block_device            = [
     "${var.ebs_block_devices}"
   ]
-  ebs_optimized               = "${contains(local.ebs_optimized_instance_types, var.instance_type))}"
+  ebs_optimized               = "${contains(local.ebs_optimized_instance_types, var.instance_type)}"
   enable_monitoring           = true
   ephemeral_block_device      = [
     "${var.ephemeral_block_devices}"
@@ -56,7 +56,11 @@ resource "aws_launch_configuration" "launch_config" {
     create_before_destroy = true
   }
   name_prefix                 = "${var.name}"
+  placement_tenancy           = "${var.placement_tenancy}"
   root_block_device           = "${var.root_block_device}"
-  security_groups             = ["${var.security_groups}"]
+  security_groups             = [
+    "${var.security_groups}"
+  ]
   user_data                   = "${var.user_data}"
+  user_data_base64            = "${var.user_data_base64}"
 }
