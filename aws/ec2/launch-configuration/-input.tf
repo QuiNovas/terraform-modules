@@ -59,8 +59,3 @@ variable "user_data" {
   default = ""
   type    = "string"
 }
-
-variable "user_data_base64" {
-  default = ""
-  type    = "string"
-}

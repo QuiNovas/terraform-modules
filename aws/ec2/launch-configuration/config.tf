@@ -57,10 +57,11 @@ resource "aws_launch_configuration" "launch_config" {
   }
   name_prefix                 = "${var.name}"
   placement_tenancy           = "${var.placement_tenancy}"
-  root_block_device           = "${var.root_block_device}"
+  root_block_device           = [
+    "${var.root_block_device}"
+  ]
   security_groups             = [
     "${var.security_groups}"
   ]
   user_data                   = "${var.user_data}"
-  user_data_base64            = "${var.user_data_base64}"
 }
