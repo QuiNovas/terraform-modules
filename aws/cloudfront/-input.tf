@@ -7,7 +7,8 @@ variable "aliases" {
 }
 
 variable "comment" {
-  type = "string"
+  default = ""
+  type    = "string"
 }
 
 variable "custom_error_responses" {
