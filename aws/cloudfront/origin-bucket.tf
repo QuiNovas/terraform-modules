@@ -1,5 +1,15 @@
+resource "random_string" "origin_suffix" {
+  keepers {
+    keep = true
+  }
+  length  = 8
+  lower   = false
+  special = false
+  upper   = false
+}
+
 resource "aws_s3_bucket" "origin" {
-  bucket = "${var.distribution_name}"
+  bucket = "${var.distribution_name}-${random_string.origin_suffix.result}"
   lifecycle {
     prevent_destroy = true
   }
