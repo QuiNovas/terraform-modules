@@ -6,6 +6,11 @@ variable "aliases" {
   type = "list"
 }
 
+variable "bucket_name" {
+  default = ""
+  type    = "string"
+}
+
 variable "comment" {
   default = ""
   type    = "string"
