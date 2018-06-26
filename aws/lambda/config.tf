@@ -119,4 +119,10 @@ resource "aws_iam_policy" "invoke_function" {
   policy      = "${data.aws_iam_policy_document.invoke_function.json}"
 }
 
+resource "aws_iam_role_policy_attachment" "invoke_function" {
+  count       = "${var.allow_self_invocation ? 1 : 0}"
+  policy_arn  = "${aws_iam_policy.invoke_function.arn}"
+  role        = "${aws_iam_role.function.name}"
+}
+
 data "aws_region" "current" {}

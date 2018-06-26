@@ -1,3 +1,8 @@
+variable "allow_self_invocation" {
+  default = false
+  type    = "string"
+}
+
 variable "dead_letter_arn" {
   type = "string"
 }
