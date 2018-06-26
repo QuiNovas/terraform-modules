@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "origin" {
-  bucket = "${var.distribution_name}"
+  bucket = "${var.bucket_name}"
   lifecycle {
     prevent_destroy = true
   }

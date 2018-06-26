@@ -6,8 +6,14 @@ variable "aliases" {
   type = "list"
 }
 
+variable "bucket_name" {
+  default = ""
+  type    = "string"
+}
+
 variable "comment" {
-  type = "string"
+  default = ""
+  type    = "string"
 }
 
 variable "custom_error_responses" {

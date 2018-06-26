@@ -18,7 +18,6 @@ variable "image_id" {
 }
 
 variable "instance_type" {
-  default = "t2.micro"
   type    = "string"
 }
 
@@ -29,6 +28,11 @@ variable "key_name" {
 
 variable "name" {
   type = "string"
+}
+
+variable "placement_tenancy" {
+  default = "default"
+  type    = "string"
 }
 
 variable "policy_arns" {
@@ -55,4 +59,3 @@ variable "user_data" {
   default = ""
   type    = "string"
 }
-
