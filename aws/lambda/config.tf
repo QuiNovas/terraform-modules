@@ -54,6 +54,16 @@ data "aws_iam_policy_document" "function" {
     ]
     sid       = "AllowDeadLetterWriting"
   }
+  statement {
+    actions   = [
+      "xray:PutTraceSegments",
+      "xray:PutTelemetryRecords"
+    ]
+    resources = [
+      "*"
+    ]
+    sid       = "AllowWritingXRay"
+  }
 }
 
 resource "aws_iam_role_policy" "log_group_access" {
