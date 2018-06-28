@@ -18,3 +18,13 @@ resource "aws_secretsmanager_secret" "secret" {
   }
   tags                = "${var.tags}"
 }
+
+resource "aws_secretsmanager_secret_version" "secret" {
+  lifecycle {
+    ignore_changes = [
+      "secret_string"
+    ]
+  }
+  secret_id     = "${aws_secretsmanager_secret.secret.id}"
+  secret_string = "${var.value}"
+}
