@@ -17,5 +17,5 @@ resource "aws_secretsmanager_secret" "secret" {
 
 resource "aws_secretsmanager_secret_version" "secret" {
   secret_id     = "${aws_secretsmanager_secret.secret.id}"
-  secret_string = "${jsonencode(var.value)}"
+  secret_string = "${var.value}"
 }

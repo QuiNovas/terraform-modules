@@ -13,5 +13,6 @@ variable "tags" {
 }
 
 variable "value" {
-  type = "map"
+  default = ""
+  type    = "string"
 }
