@@ -11,3 +11,8 @@ variable "tags" {
   default = {}
   type    = "map"
 }
+
+variable "value" {
+  default = ""
+  type    = "string"
+}
