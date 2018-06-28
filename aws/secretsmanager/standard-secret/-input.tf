@@ -12,9 +12,6 @@ variable "tags" {
   type    = "map"
 }
 
-variable "initial_value" {
-  default = {
-    SomeKey = "SomeValue"
-  }
+variable "value" {
   type = "map"
 }
