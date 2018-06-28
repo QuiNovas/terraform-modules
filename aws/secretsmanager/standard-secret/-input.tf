@@ -11,3 +11,10 @@ variable "tags" {
   default = {}
   type    = "map"
 }
+
+variable "initial_value" {
+  default = {
+    SomeKey = "SomeValue"
+  }
+  type = "map"
+}
